@@ -30,11 +30,7 @@ export default function ManagerEditPage() {
                     <Modal
                         title={"Вы уверены что хотите удалить менеджера?"}
                         actions={
-                            <>
-                                <CustomButton buttonName={"Удалить"} onClick={handleDelete}/>
-                                <CustomButton buttonName={"Отмена"}
-                                              onClick={() => setModalVisible(false)} type={"Outline"}></CustomButton>
-                            </>}
+                                <CustomButton buttonName={"Удалить"} onClick={handleDelete}/>}
                         isVisible={modalVisible}
                         content={''}
                         onCloseFunk={() => setModalVisible(false)}

@@ -9,7 +9,7 @@ import {DropdownProps} from "@/common/types/types";
 
 interface InputProps {
     title?: string,
-    onChange: (value: string) => void,
+    onChange?: (value: string) => void,
     placeholder?: string,
     value: string | number,
     errState?: boolean,
@@ -57,7 +57,7 @@ const CustomInput: React.FC<InputProps> = ({
             <span>{title}</span>
             <span className={"InputWrapper"}>
                 <input
-                    onChange={(e) => onChange(e.target.value)}
+                    onChange={(e) => onChange ? onChange(e.target.value) : null}
                     placeholder={placeholder}
                     value={value}
                     style={errState ? errorStyle : normalStyle}/>

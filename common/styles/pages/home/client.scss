@@ -1,0 +1,62 @@
+.ClientWrapper{
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .ClientActionWrapper{
+
+  }
+
+  .ClientInfoWrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 32px;
+
+    .Card{
+      min-width: 560px;
+      padding: 14px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      > .InfoField{
+
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+
+        > .StorageUsageBar{
+
+          margin-inline: 12px;
+          display: inline-block;
+          width: 300px;
+          height: 10px;
+          border-radius: 5px;
+          position: relative;
+          background-color: #E5E4E4;
+          outline: 1px solid #E5E4E4;
+
+          > .StorageUsageProgress{
+
+            position: absolute;
+            height: 10px;
+            min-width: 10px;
+            border-radius: 5px;
+            top: 0;
+            left: 0;
+            background-color: #FF9500;
+
+          }
+        }
+      }
+
+      > .ButtonWrapper{
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+    }
+  }
+}
