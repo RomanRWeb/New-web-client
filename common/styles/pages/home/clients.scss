@@ -1,0 +1,18 @@
+.ClientsActionWrapper{
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  align-items: flex-end;
+
+  > .SearchBar{
+    flex: 3;
+  }
+
+  > .DropdownBar{
+    flex: 2;
+  }
+
+  > .CustomButtonFill{
+    flex: 1;
+  }
+}

@@ -1,0 +1,22 @@
+.HomeLayout{
+  display: flex;
+  flex-direction: row;
+
+  .MainContent{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > .ContentWrapper{
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      gap: 24px;
+    }
+  }
+}

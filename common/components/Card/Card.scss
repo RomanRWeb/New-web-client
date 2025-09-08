@@ -1,0 +1,8 @@
+@use "../../../common/styles/variables" as *;
+
+.Card{
+  border-radius: 8px;
+  padding: 14px 32px;
+  background-color: $white;
+  box-shadow: 0 1px 4px 0 #0C0C0D0C, 0 1px 4px 0 #0C0C0D19;
+}

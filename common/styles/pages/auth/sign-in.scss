@@ -1,0 +1,22 @@
+.SignInForm{
+
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  h1, .SubmitWrapper {
+    text-align: center;
+  }
+
+  .FieldsWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .CustomInput {
+      span{
+        font-weight: 500;
+      }
+    }
+  }
+}

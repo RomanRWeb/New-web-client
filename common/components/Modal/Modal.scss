@@ -1,0 +1,73 @@
+@use "../../styles/variables" as *;
+
+.ModalBackground{
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #525E6F33;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+  backdrop-filter: blur(4px);
+
+  .Modal{
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+    gap: 8px;
+    border: 1px solid $modalBorder;
+    background-color: $white;
+    min-width: 662px;
+    animation: appear 0.2s ease-out;
+
+    > header {
+
+      height: 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 24px;
+
+      > h1{
+        font-size: 20px;
+        line-height: 24px;
+        display: inline;
+        color: #121417;
+      }
+
+      > .CloseWrapper{
+        background-color: #EEF1F6;
+        width: 24px;
+        height: 24px;
+        border-radius: 3px;
+        text-align: center;
+
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+
+    .actionWrapper{
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
+      padding: 24px;
+    }
+  }
+}
+
+@keyframes appear {
+  from {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
