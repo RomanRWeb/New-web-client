@@ -3,7 +3,7 @@ import "./CustomButton.scss"
 import React, {CSSProperties} from "react";
 
 interface ButtonProps {
-    onClick: () => void,
+    onClick?: () => void,
     buttonName: string,
     active?: boolean,
     style?: CSSProperties,

@@ -15,12 +15,12 @@ const CustomTable: React.FC<TableProps<any>> = ({columns, data, name, defaultSor
 
     const maxIdCharCount: string = useMemo(() => {
         if (data.length > 0){
-            const tryCalcIdWidth: number = data.sort((a, b) => b.id - a.id)[0]["id"].length
+            const tryCalcIdWidth: number = data.sort((a, b) => b.id - a.id)[0][columns[0].name].length
             if (tryCalcIdWidth < 3) {
                 return "50px"
             } else return `calc(${tryCalcIdWidth} * 8px + 25px)`
-        } else return '50px'
-    }, [data]);
+        } else return ''
+    }, [columns, data]);
 
     const [tableData, setTableData] = useState<typeof data>([]);
     const [sort, setSort] = useState<SortType>(defaultSortField === ''? {field: defaultSortField, sort: 'desc'}: {field: '', sort: 'desc'});
@@ -83,7 +83,7 @@ const CustomTable: React.FC<TableProps<any>> = ({columns, data, name, defaultSor
                 </thead>
                 <tbody>
                 {tableData.map((item, idx) => (
-                    <tr key={idx} onClick={() => onClickRow(item)}>
+                    <tr key={idx} onClick={() => onClickRow ? onClickRow(item) : null}>
                         {columns.map((col) => (
                             <td key={col.name}
                                 style={{color: findColor({col: col, item: item})}}>

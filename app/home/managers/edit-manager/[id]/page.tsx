@@ -37,8 +37,7 @@ export default function ManagerEditPage() {
                     />
                 </div>
             </div>
-            <ManagerCard onDataCorrect={setDataCorrect}
-                         manager={uiState.currentManager ? uiState.currentManager : undefined}/>
+            <ManagerCard onDataCorrect={setDataCorrect} manager={uiState.currentManager || {id: "0", role: '', phone: '', password: '', fullName: ''}}/>
         </>
 
     )
