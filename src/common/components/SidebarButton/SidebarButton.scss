@@ -1,0 +1,25 @@
+@use "../../styles/variables" as *;
+
+.sidebar-button {
+  display: flex;
+  flex-direction: row;
+  margin-left: 12px;
+  padding: 2px 12px;
+  cursor: pointer;
+  height: 44px;
+  color: $textWhite;
+  z-index: 200;
+
+  > input {
+    appearance: none;
+    margin: 0;
+  }
+
+  > span {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    color: $textWhite;
+    gap: 8px;
+  }
+}

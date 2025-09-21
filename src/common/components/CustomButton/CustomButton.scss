@@ -1,0 +1,115 @@
+@use "../../styles/variables" as *;
+
+//why disabled button have 2 different style(gray and light blue)?
+
+@mixin button-style {
+  padding-inline: 24px;
+  min-width: max-content;
+  font-size: 16px;
+  line-height: 18px;
+  height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+@mixin button-fill {
+  @include button-style;
+  border: none;
+  background-color: $activeElColor;
+  transition: linear 0.2s transform;
+  overflow: hidden;
+  position: relative;
+  z-index: 200;
+  color: white;
+
+  &:before,
+  &:after {
+    z-index: 100;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: skewX(-30deg) translateX(110%);
+    background-color: rgba(245, 246, 247, 0.05);
+    filter: blur(2px);
+    transition: linear 0.2s all;
+  }
+
+  &:hover {
+    &:before {
+      transform: skewX(-45deg) translateX(40%);
+      transition: linear 0.2s all;
+    }
+
+    &:after {
+      transform: skewX(-45deg) translateX(70%);
+      transition: linear 0.1s all;
+    }
+  }
+
+  &:disabled {
+    background-color: $disabledElColor;
+    cursor: default;
+
+    &:before,
+    &:after {
+      display: none;
+    }
+  }
+}
+
+.button-fill-common {
+  @include button-fill;
+
+  &:disabled {
+    background-color: $disabledElColor;
+  }
+}
+
+.button-fill-gray {
+  @include button-fill;
+
+  &:disabled {
+    background-color: $disabledSecondColor;
+  }
+}
+
+.button-outline-common {
+  @include button-style;
+  border: 1px solid $activeElColor;
+  background-color: white;
+  color: $activeElColor;
+
+  &:disabled {
+    //    background-color: ;
+    //    color: ;
+  }
+}
+
+.button-blank-common {
+  height: 40px;
+  padding-inline: 24px;
+  min-width: max-content;
+  border: none;
+  background-color: $activeElColor;
+  background-clip: text;
+  color: transparent;
+  border-radius: 4px;
+  box-shadow:
+    inset 0 0 0 0 #0c0c0d0c,
+    inset 0 0 0 0 #0c0c0d19;
+  transition: ease-in 0.2s box-shadow;
+
+  &:hover {
+    box-shadow:
+      inset 0 0 5px 0 #0c0c0d0c,
+      inset 0 0 4px 0 #0c0c0d19;
+  }
+
+  &:disabled {
+    background-color: $disabledElColor;
+    //    color: ;
+  }
+}

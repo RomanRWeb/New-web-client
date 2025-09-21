@@ -1,0 +1,141 @@
+@use "../../variables" as *;
+
+.client-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .client-action-wrapper {
+  }
+
+  .client-info-wrapper {
+    //display: flex;
+    //flex-direction: row;
+    //flex-wrap: wrap;
+    //gap: 32px;
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 32px;
+
+    .card {
+      &:nth-last-child(1) {
+        padding-left: 12px;
+        padding-bottom: 32px;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        box-shadow: 0px 12px 20px 0px rgba(106, 115, 129, 0.22);
+
+        > h1 {
+          margin-left: 12px;
+        }
+      }
+
+      &:nth-child(1) {
+        flex: 1;
+        //gap: 4px;
+      }
+
+      &:nth-child(2) {
+        flex: 2;
+        //gap: 14px;
+      }
+
+      &:nth-child(3) {
+        flex: 1;
+        //gap: 24px;
+      }
+
+      &:nth-child(4) {
+        flex: 2;
+        //gap: 20px;
+      }
+
+      min-width: 560px;
+      padding: 14px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      > .info-field {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        flex-wrap: nowrap;
+
+        > .storage-usage-bar {
+          margin-inline: 12px;
+          display: inline-block;
+          width: 300px;
+          height: 10px;
+          border-radius: 5px;
+          position: relative;
+          background-color: #e5e4e4;
+          outline: 1px solid #e5e4e4;
+
+          > .storage-usage-progress {
+            position: absolute;
+            height: 10px;
+            min-width: 10px;
+            border-radius: 5px;
+            top: 0;
+            left: 0;
+            background-color: #ff9500;
+          }
+        }
+      }
+
+      > span,
+      b {
+        text-wrap: nowrap;
+      }
+
+      input {
+        font-size: 16px;
+      }
+
+      > .button-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      > .dropdown-bar {
+        > span {
+          font-size: 16px;
+          line-height: 18px;
+          color: $textColor;
+        }
+      }
+
+      .radio-input-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+
+        > input {
+          margin-block: auto;
+          margin-inline: 0;
+          appearance: none;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          border: 1px solid $activeElColor;
+          position: relative;
+
+          &:before {
+            position: absolute;
+            content: "";
+            width: 8px;
+            height: 8px;
+            top: 3px;
+            left: 3px;
+            background-color: $activeElColor;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+}

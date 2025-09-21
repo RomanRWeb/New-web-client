@@ -1,0 +1,94 @@
+@use "../../../../common/styles/variables" as *;
+
+.sidebar {
+  min-width: 300px;
+  min-height: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(182.83deg, #161f32 66.28%, #364053 99.39%);
+
+  .logo-container {
+    padding: 16px 24px 32px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    > .logo {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+
+      > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: default;
+
+        > b {
+          font-weight: 700;
+          font-size: 19px;
+          line-height: 21px;
+          letter-spacing: 1.5px;
+          text-align: center;
+          color: $textWhite;
+        }
+
+        > span {
+          font-weight: 400;
+          line-height: 9px;
+          font-size: 9px;
+          color: $textWhite;
+        }
+      }
+    }
+    > .note-wrapper {
+      align-content: end;
+    }
+  }
+
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    --number-of-options: 4;
+    position: relative;
+
+    .selection {
+      background-color: $activeElColor;
+      height: 40px;
+      width: calc(100% - 24px);
+      border-radius: 8px;
+      margin: 2px 12px;
+      position: absolute;
+      pointer-events: none;
+      display: none;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      transition: ease 0.2s transform;
+    }
+
+    label:has(input[type="radio"]:checked) ~ .selection {
+      display: block;
+      animation: 0.2s ease fade-in;
+    }
+    label:nth-child(2):has(input[type="radio"]:checked) ~ .selection {
+      transform: translateY(calc(100% + 4px));
+    }
+    label:nth-child(3):has(input[type="radio"]:checked) ~ .selection {
+      transform: translateY(calc(200% + 8px));
+    }
+    label:nth-child(4):has(input[type="radio"]:checked) ~ .selection {
+      transform: translateY(calc(300% + 12px));
+    }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

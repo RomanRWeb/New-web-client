@@ -1,0 +1,79 @@
+@use "../../styles/variables" as *;
+
+.custom-input {
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  > section {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid $textWhite;
+    border-radius: 4px;
+    height: 40px;
+
+    > .input-wrapper {
+      font-size: 16px;
+      position: relative;
+      flex: 1;
+
+      > input {
+        background-color: transparent;
+        border: none;
+        padding: 0 0 0 16px;
+        width: 100%;
+        height: 100%;
+      }
+    }
+
+    > .dropdown-list {
+      > svg {
+        color: lime;
+      }
+    }
+
+    &:has(> .input-wrapper > input:focus) {
+      outline: 1px solid;
+    }
+  }
+
+  .input-wrapper {
+    font-size: 16px;
+    position: relative;
+
+    > input {
+      border-style: solid;
+      border-width: 1px;
+      border-radius: 4px;
+      font-size: 14px;
+      height: 40px;
+      width: 100%;
+      padding-left: 16px;
+    }
+  }
+
+  .icon-zone {
+    height: 20px;
+    display: flex;
+    align-items: center;
+    right: 10px;
+    bottom: 10px;
+    position: absolute;
+  }
+
+  .err-message {
+    color: $errTextColor;
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  &:has(> .input-wrapper > input:disabled) {
+    > span {
+      color: $textSecondaryColor;
+    }
+    > .input-wrapper > input {
+      background-color: $white;
+    }
+  }
+}

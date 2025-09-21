@@ -1,0 +1,18 @@
+@use "../../../../common/styles/variables" as *;
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 554px;
+  padding: 14px 32px;
+  height: 528px;
+
+  > .dropdown-bar {
+    > span {
+      font-size: 16px;
+      color: $textColor;
+      font-weight: 400;
+    }
+  }
+}

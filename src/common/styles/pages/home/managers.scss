@@ -1,0 +1,9 @@
+.managers-actions-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  > .search-bar {
+    width: 39%;
+  }
+}

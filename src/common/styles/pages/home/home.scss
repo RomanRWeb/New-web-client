@@ -1,0 +1,23 @@
+.home-layout {
+  display: flex;
+  flex-direction: row;
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    > .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      padding: 24px;
+      gap: 24px;
+      overflow-y: scroll;
+      height: calc(100vh - 56px);
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}

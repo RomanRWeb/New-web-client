@@ -1,0 +1,73 @@
+@use "../../../../common/styles/variables" as *;
+
+.HomeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  border-bottom: 1px solid $HeaderBorder;
+  padding: 8px 14px 8px 20px;
+  box-shadow:
+    0 1px 4px 0 #0c0c0d0d,
+    0 1px 4px 0 #0c0c0d1a;
+  gap: 16px;
+  background-color: $white;
+  width: 100%;
+
+  .HeaderText {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    max-width: calc(100% - (14px + 20px) - 80px); // 100% - padding - userIcon
+
+    h1 {
+      font-size: 22px;
+      color: $textBlack;
+    }
+
+    .Wrapper {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: nowrap;
+      text-wrap: nowrap;
+      gap: 20px;
+      max-width: 100%;
+
+      > h1 {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .ReturnButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      > span:nth-child(3) {
+        font-size: 22px;
+        font-weight: 100;
+        color: $textSecondaryColor;
+      }
+    }
+  }
+
+  .User {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    > .DropdownList {
+      height: 48px;
+    }
+  }
+}
