@@ -4,7 +4,7 @@ import React, { CSSProperties, useState } from "react";
 import "./CustomInput.scss";
 import { CloseIcon } from "@app/common/icons/close";
 import { ErrorIcon } from "@app/common/icons/error";
-import DropdownList from "@app/common/components/DropdownList/DropdownList";
+import DropdownList from "@app/common/components/dropdown-list/DropdownList";
 import { DropdownProps } from "@app/data/types";
 
 interface InputProps {

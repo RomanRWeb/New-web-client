@@ -1,8 +1,8 @@
 "use client";
 import { useCallback } from "react";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { redirect } from "next/navigation";
-import { Error } from "@app/common/components/Icons/Error";
+import { Error } from "@app/common/components/images/Error";
 
 const ResetError = () => {
   const handleReturn = useCallback(() => {

@@ -1,7 +1,7 @@
 "use client";
-import Card from "@app/common/components/Card/Card";
+import Card from "@app/common/components/сard/Card";
 import React, { useCallback, useMemo } from "react";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import "@app/common/styles/pages/home/tariff.scss";
 import { CheckIcon } from "@app/common/icons/check";
 import { Tariff } from "@app/data/types";

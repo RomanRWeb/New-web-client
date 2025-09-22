@@ -1,7 +1,7 @@
 import "./Modal.scss";
 import React from "react";
 import { CloseModalIcon } from "@app/common/icons/close-modal";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 
 interface ModalProps {
   title: string | React.ReactNode;

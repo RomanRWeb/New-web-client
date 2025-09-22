@@ -1,10 +1,10 @@
 "use client";
 import ManagerCard from "@app/modules/home/components/manager-card/ManagerCard";
 import React, { useCallback, useState } from "react";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { useSelector } from "react-redux";
 import { RootState } from "@app/store/store";
-import Modal from "@app/common/components/Modal/Modal";
+import Modal from "@app/common/components/modal/Modal";
 import { redirect } from "next/navigation";
 
 const ManagerEditSelected: React.FC = () => {

@@ -1,5 +1,5 @@
 "use client";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { useCallback } from "react";
 import { redirect } from "next/navigation";
 

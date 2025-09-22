@@ -1,10 +1,10 @@
 "use client";
-import Card from "@app/common/components/Card/Card";
+import Card from "@app/common/components/сard/Card";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import "@app/common/styles/pages/home/tariff.scss";
 import { CheckIcon } from "@app/common/icons/check";
-import { CustomInput } from "@app/common/components/CustomInput/CustomInput";
+import { CustomInput } from "@app/common/components/custom-input/CustomInput";
 import { Tariff } from "@app/data/types";
 
 interface TariffEditProps {

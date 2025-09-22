@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
-import { CustomInputPassword } from "@app/common/components/CustomInput/CustomInput";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
+import { CustomInputPassword } from "@app/common/components/custom-input/CustomInput";
 
 interface Props {
   onSubmit: (b: boolean) => void;

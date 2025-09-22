@@ -1,12 +1,12 @@
 "use client";
 import "./LegalEntityModal.scss";
-import Modal from "@app/common/components/Modal/Modal";
+import Modal from "@app/common/components/modal/Modal";
 import { ChevronLeftIcon } from "@app/common/icons/chevron-left";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@app/store/store";
-import { CustomInput } from "@app/common/components/CustomInput/CustomInput";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomInput } from "@app/common/components/custom-input/CustomInput";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { CloseInnIcon } from "@app/common/icons/close-inn";
 import { SuccessInnIcon } from "@app/common/icons/success-inn";
 
@@ -305,7 +305,7 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
             {"Заполните данные организации для создание плательщика"}
           </span>
         ) : null}
-        {!dataOk ? (
+        {!dataOk && !innNotFound ? (
           <span className={"message-error"}>
             {
               "Необходимо заполнить все обязательные поля для возможности формирования договора и платежных документов"

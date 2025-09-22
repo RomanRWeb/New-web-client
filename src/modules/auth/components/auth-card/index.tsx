@@ -1,4 +1,4 @@
-import { Logo } from "@app/common/components/Icons/Logo";
+import { Logo } from "@app/common/components/images/Logo";
 import React from "react";
 import info from "../../../../../package.json";
 import "@app/common/styles/pages/auth/auth.scss";

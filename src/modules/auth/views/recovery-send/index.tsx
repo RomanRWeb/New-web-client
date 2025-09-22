@@ -1,9 +1,9 @@
 "use client";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { useCallback } from "react";
 import { redirect } from "next/navigation";
 import "@app/common/styles/pages/auth/recovery.scss";
-import { Success } from "@app/common/components/Icons/Success";
+import { Success } from "@app/common/components/images/Success";
 
 const RecoverySend = () => {
   const handleReturn = useCallback(() => {

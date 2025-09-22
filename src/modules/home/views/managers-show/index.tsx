@@ -1,10 +1,10 @@
 "use client";
-import CustomTable from "@app/common/components/CustomTable/CustomTable";
+import CustomTable from "@app/common/components/custom-table/CustomTable";
 import { ColumnsHeader, ManagerType } from "@app/data/types";
 import React, { useCallback, useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
-import SearchBar from "@app/common/components/SearchBar/SearchBar";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
+import SearchBar from "@app/common/components/search-bar/SearchBar";
 import "@app/common/styles/pages/home/managers.scss";
 import { setCurrentManager } from "@app/store/slices/uiSlice";
 import { useDispatch } from "react-redux";

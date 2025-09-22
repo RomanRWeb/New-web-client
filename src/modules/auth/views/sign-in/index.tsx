@@ -2,10 +2,10 @@
 import {
   CustomInputDropdown,
   CustomInputPassword,
-} from "@app/common/components/CustomInput/CustomInput";
+} from "@app/common/components/custom-input/CustomInput";
 import { useCallback, useState } from "react";
 import "@app/common/styles/pages/auth/sign-in.scss";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { DropdownProps } from "@app/data/types";
 import { AppDispatch } from "@app/store/store";
 import { useDispatch } from "react-redux";

@@ -1,17 +1,17 @@
 "use client";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Modal from "@app/common/components/Modal/Modal";
-import Card from "@app/common/components/Card/Card";
+import Modal from "@app/common/components/modal/Modal";
+import Card from "@app/common/components/сard/Card";
 import { ClientType, SellStateItem } from "@app/data/types";
 import { useSelector } from "react-redux";
 import { RootState } from "@app/store/store";
 import { redirect } from "next/navigation";
 import "@app/common/styles/pages/home/client.scss";
-import { CustomInput } from "@app/common/components/CustomInput/CustomInput";
+import { CustomInput } from "@app/common/components/custom-input/CustomInput";
 import { HelpIcon } from "@app/common/icons/help";
-import DropdownBar from "@app/common/components/DropdownBar/DropdownBar";
-import CustomTable from "@app/common/components/CustomTable/CustomTable";
+import DropdownBar from "@app/common/components/dropdown-bar/DropdownBar";
+import CustomTable from "@app/common/components/custom-table/CustomTable";
 import LegalEntityModal from "@app/modules/home/components/legal-entity-modal/LegalEntityModal";
 import { changeListData } from "@app/data/mocks";
 import {
@@ -152,9 +152,9 @@ const ClientView = () => {
           <div className={"info-field"}>
             <span>{"Файловое хранилище:"}</span>
             <b>{` ${client?.cloudStorageUsage || "-"} ГБ из ${client?.cloudStorageLimit || "-"} ГБ`}</b>
-            <div className={"StorageUsageBar"}>
+            <div className={"storage-usage-bar"}>
               <div
-                className={"StorageUsageProgress"}
+                className={"storage-usage-progress"}
                 style={{ width: `${barWidth}%` }}
               />
             </div>

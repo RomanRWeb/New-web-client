@@ -1,7 +1,7 @@
 "use client";
 import ManagerCard from "@app/modules/home/components/manager-card/ManagerCard";
 import React, { useCallback, useState } from "react";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { redirect } from "next/navigation";
 
 const ManagerAddNew: React.FC = () => {

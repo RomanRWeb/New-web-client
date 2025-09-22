@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from "@app/store/store";
 import "./HomeHeader.scss";
 import { redirect, usePathname } from "next/navigation";
 import { UserIcon } from "@app/common/icons/user";
-import DropdownList from "@app/common/components/DropdownList/DropdownList";
+import DropdownList from "@app/common/components/dropdown-list/DropdownList";
 import { DropdownProps } from "@app/data/types";
 import { ChevronLeftIcon } from "@app/common/icons/chevron-left";
 import { setCurrentClient, setCurrentManager } from "@app/store/slices/uiSlice";

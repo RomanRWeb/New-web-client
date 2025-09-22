@@ -1,10 +1,10 @@
 "use client";
 import "./SideBar.scss";
 import React from "react";
-import { Logo } from "@app/common/components/Icons/Logo";
+import { Logo } from "@app/common/components/images/Logo";
 import info from "../../../../../package.json";
 import { NoteIcon } from "@app/common/icons/note";
-import SidebarButton from "@app/common/components/SidebarButton/SidebarButton";
+import SidebarButton from "@app/common/components/sidebar-button/SidebarButton";
 import { ClientIcon } from "@app/common/icons/clients";
 import { AnalyticsIcon } from "@app/common/icons/analytics";
 import { NavListType } from "@app/data/types";

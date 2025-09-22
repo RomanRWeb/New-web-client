@@ -1,8 +1,8 @@
 "use client";
-import SearchBar from "@app/common/components/SearchBar/SearchBar";
+import SearchBar from "@app/common/components/search-bar/SearchBar";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import DropdownBar from "@app/common/components/DropdownBar/DropdownBar";
-import { CustomButton } from "@app/common/components/CustomButton/CustomButton";
+import DropdownBar from "@app/common/components/dropdown-bar/DropdownBar";
+import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import {
   ClientType,
   ColumnsHeader,
@@ -10,7 +10,7 @@ import {
   SubscribeItem,
 } from "@app/data/types";
 import "@app/common/styles/pages/home/clients.scss";
-import CustomTable from "@app/common/components/CustomTable/CustomTable";
+import CustomTable from "@app/common/components/custom-table/CustomTable";
 import { redirect } from "next/navigation";
 import { AppDispatch } from "@app/store/store";
 import { useDispatch } from "react-redux";
