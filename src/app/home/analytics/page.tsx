@@ -1,4 +1,4 @@
-import Analytics from "@app/modules/home/views/analytics";
+import Analytics from "@app/modules/home/pages/analytics";
 
 export default function AnalyticsPage() {
   return <Analytics />;

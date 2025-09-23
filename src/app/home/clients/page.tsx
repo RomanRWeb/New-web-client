@@ -1,5 +1,5 @@
-import Clients from "@app/modules/home/pages/clients";
+import ClientsMain from "@app/modules/home/pages/clients";
 
 export default function ClientsPage() {
-  return <Clients />;
+  return <ClientsMain />;
 }

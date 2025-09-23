@@ -105,7 +105,7 @@ const CustomTable: React.FC<TableProps<any>> = ({
 
   return (
     <div className={"table"}>
-      <h1>{name}</h1>
+      {name ? <h1>{name}</h1> : null}
       <table>
         <thead>
           <tr>{createColumnsHeaders}</tr>
