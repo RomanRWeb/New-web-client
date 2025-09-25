@@ -2,7 +2,7 @@
 import React, { useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@app/store/store";
-import "./HomeHeader.scss";
+import "../../../../common/styles/common/HomeHeader.scss";
 import { redirect, usePathname } from "next/navigation";
 import { UserIcon } from "@app/common/icons/user";
 import DropdownList from "@app/common/components/dropdown-list/DropdownList";

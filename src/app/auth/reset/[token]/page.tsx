@@ -1,9 +1,12 @@
-"use client";
 import Reset from "@app/modules/auth/pages/reset";
-import { usePathname } from "next/navigation";
+import { Params } from "@app/data/types";
 
-export default function ResetPage() {
-  const pathname = usePathname().split("/");
+export async function generateStaticParams() {
+  return [{ token: "1" }, { token: "2" }, { token: "3" }];
+}
 
-  return <Reset token={pathname[pathname.length - 1]} />;
+export default async function ResetPage({ params }: { params: Params }) {
+  const { id } = await params;
+
+  return <Reset token={id} />;
 }

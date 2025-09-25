@@ -1,4 +1,4 @@
-import "./Modal.scss";
+import "../../styles/common/Modal.scss";
 import React from "react";
 import { CloseModalIcon } from "@app/common/icons/close-modal";
 import { CustomButton } from "@app/common/components/custom-button/CustomButton";

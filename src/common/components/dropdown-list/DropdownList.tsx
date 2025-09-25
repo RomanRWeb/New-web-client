@@ -1,4 +1,4 @@
-import "./DropdownList.scss";
+import "../../styles/common/DropdownList.scss";
 import React from "react";
 import { ChevronDownIcon } from "@app/common/icons/chevron-down";
 import { DropdownProps } from "@app/data/types";

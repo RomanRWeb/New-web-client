@@ -2,7 +2,7 @@
 import { ChartCards, ChartField } from "@app/data/types";
 import Card from "@app/common/components/сard/Card";
 import React, { useCallback } from "react";
-import "./ChartCard.scss";
+import "../../../../common/styles/common/ChartCard.scss";
 
 interface createCardProps {
   cardHeader: string;

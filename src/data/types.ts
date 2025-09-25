@@ -1,3 +1,5 @@
+export type Params = Promise<{ id: string }>;
+
 export interface DropdownProps {
   text: string;
   color?: string;

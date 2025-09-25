@@ -1,22 +1,26 @@
 "use client";
-import "./LegalEntityModal.scss";
+import "../../../../common/styles/common/LegalEntityModal.scss";
 import Modal from "@app/common/components/modal/Modal";
 import { ChevronLeftIcon } from "@app/common/icons/chevron-left";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "@app/store/store";
 import { CustomInput } from "@app/common/components/custom-input/CustomInput";
 import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { CloseInnIcon } from "@app/common/icons/close-inn";
 import { SuccessInnIcon } from "@app/common/icons/success-inn";
+import { ClientType } from "@app/data/types";
 
 interface ModalProps {
+  currentClient: ClientType | undefined;
   isVisible: boolean;
   onClose: () => void;
 }
 
-const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
-  const uiState = useSelector((state: RootState) => state.ui);
+const LegalEntityModal = ({
+  isVisible,
+  onClose,
+  currentClient,
+}: ModalProps) => {
+  const [client, setClient] = useState<ClientType | undefined>(currentClient);
   const onlyDigitsRegex = useMemo(() => /^\d{10}$/, []);
   const fullNameRegex = useMemo(
     () => /^[а-яА-ЯёЁ]{2,}\s[а-яА-ЯёЁ]{2,}(\s[а-яА-ЯёЁ]{2,})?$/u,
@@ -28,7 +32,7 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
     [],
   );
 
-  const [inn, setInn] = useState<string>(uiState.currentClient?.inn || "");
+  const [inn, setInn] = useState<string>(client?.inn || "");
   const [isInnOk, setIsInnOk] = useState<boolean>(false);
   const [innNotFound, setInnNotFound] = useState<boolean>(false);
   useEffect(() => {
@@ -43,16 +47,14 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
     }
   }, [isInnOk]);
 
-  const [adminName, setAdminName] = useState<string>(
-    uiState.currentClient?.adminName || "",
-  );
+  const [adminName, setAdminName] = useState<string>(client?.adminName || "");
   const [adminNameError, setAdminNameError] = useState<boolean>(false);
   useEffect(() => {
     setAdminNameError(adminName.length === 0);
   }, [adminName, fullNameRegex]);
 
   const [adminEmail, setAdminEmail] = useState<string>(
-    uiState.currentClient?.adminEmail || "",
+    client?.adminEmail || "",
   );
   const [adminEmailError, setAdminEmailError] = useState<boolean>(false);
   useEffect(() => {
@@ -60,23 +62,21 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
   }, [adminEmail.length]);
 
   const [adminPhone, setAdminPhone] = useState<string>(
-    uiState.currentClient?.adminPhone || "",
+    client?.adminPhone || "",
   );
   const [adminPhoneError, setAdminPhoneError] = useState<boolean>(false);
   useEffect(() => {
     setAdminPhoneError(!phoneRegex.test(adminPhone) || adminPhone.length === 0);
   }, [adminPhone, phoneRegex]);
 
-  const [ownerName, setOwnerName] = useState<string>(
-    uiState.currentClient?.name || "",
-  );
+  const [ownerName, setOwnerName] = useState<string>(client?.name || "");
   const [ownerNameError, setOwnerNameError] = useState<boolean>(false);
   useEffect(() => {
     setOwnerNameError(ownerName.length === 0);
   }, [ownerName.length]);
 
   const [ownerEmail, setOwnerEmail] = useState<string>(
-    uiState.currentClient?.ownerEmail || "",
+    client?.ownerEmail || "",
   );
   const [ownerEmailError, setOwnerEmailError] = useState<boolean>(false);
   useEffect(() => {
@@ -84,7 +84,7 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
   }, [ownerEmail.length]);
 
   const [ownerPhone, setOwnerPhone] = useState<string>(
-    uiState.currentClient?.ownerPhone || "",
+    client?.ownerPhone || "",
   );
   const [ownerPhoneError, setOwnerPhoneError] = useState<boolean>(false);
   useEffect(() => {
@@ -92,7 +92,7 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
   }, [ownerPhone, phoneRegex]);
 
   const [organizationName, setOrganizationName] = useState<string>(
-    uiState.currentClient?.organizationName || "",
+    client?.organizationName || "",
   );
   const [organizationNameError, setOrganizationNameError] =
     useState<boolean>(false);
@@ -100,20 +100,20 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
     setOrganizationNameError(organizationName.length === 0);
   }, [organizationName.length]);
 
-  const [kpp, setKpp] = useState<string>(uiState.currentClient?.kpp || "");
+  const [kpp, setKpp] = useState<string>(client?.kpp || "");
   const [kppError, setKppError] = useState<boolean>(false);
   useEffect(() => {
     setKppError(onlyDigitsRegex.test(kpp) || kpp.length !== 9);
   }, [kpp, onlyDigitsRegex]);
 
-  const [ogrn, setOgrn] = useState<string>(uiState.currentClient?.ogrn || "");
+  const [ogrn, setOgrn] = useState<string>(client?.ogrn || "");
   const [ogrnError, setOgrnError] = useState<boolean>(false);
   useEffect(() => {
     setOgrnError(onlyDigitsRegex.test(ogrn) || ogrn.length !== 13);
   }, [ogrn, onlyDigitsRegex]);
 
   const [documentAddress, setDocumentAddress] = useState<string>(
-    uiState.currentClient?.documentAddress || "",
+    client?.documentAddress || "",
   );
   const [documentAddressError, setDocumentAddressError] =
     useState<boolean>(false);
@@ -122,7 +122,7 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
   }, [documentAddress.length]);
 
   const [physicalAddress, setPhysicalAddress] = useState<string>(
-    uiState.currentClient?.physicalAddress || "",
+    client?.physicalAddress || "",
   );
   const [physicalAddressError, setPhysicalAddressError] =
     useState<boolean>(false);
@@ -130,16 +130,14 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
     setPhysicalAddressError(physicalAddress.length === 0);
   }, [physicalAddress.length]);
 
-  const [gmName, setGmName] = useState<string>(
-    uiState.currentClient?.gmName || "",
-  );
+  const [gmName, setGmName] = useState<string>(client?.gmName || "");
   const [gmNameError, setGmNameError] = useState<boolean>(false);
   useEffect(() => {
     setGmNameError(gmName.length === 0);
   }, [gmName.length]);
 
   const [accountantName, setAccountantName] = useState<string>(
-    uiState.currentClient?.accountantName || "",
+    client?.accountantName || "",
   );
   const [accountantNameError, setAccountantNameError] =
     useState<boolean>(false);
@@ -148,7 +146,7 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
   }, [accountantName.length]);
 
   const [companyPhone, setCompanyPhone] = useState<string>(
-    uiState.currentClient?.companyPhone || "",
+    client?.companyPhone || "",
   );
   const [companyPhoneError, setCompanyPhoneError] = useState<boolean>(false);
   useEffect(() => {
@@ -158,7 +156,7 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
   }, [companyPhone, phoneRegex]);
 
   const [currentAccount, setCurrentAccount] = useState<string>(
-    uiState.currentClient?.currentAccount || "",
+    client?.currentAccount || "",
   );
   const [currentAccountError, setCurrentAccountError] =
     useState<boolean>(false);
@@ -168,22 +166,20 @@ const LegalEntityModal = ({ isVisible, onClose }: ModalProps) => {
     );
   }, [currentAccount, onlyDigitsRegex]);
 
-  const [bik, setBik] = useState<string>(uiState.currentClient?.bik || "");
+  const [bik, setBik] = useState<string>(client?.bik || "");
   const [bikError, setBikError] = useState<boolean>(false);
   useEffect(() => {
     setBikError(onlyDigitsRegex.test(bik) || bik.length !== 9);
   }, [bik, onlyDigitsRegex]);
 
-  const [bankName, setBankName] = useState<string>(
-    uiState.currentClient?.bankName || "",
-  );
+  const [bankName, setBankName] = useState<string>(client?.bankName || "");
   const [bankNameError, setBankNameError] = useState<boolean>(false);
   useEffect(() => {
     setBankNameError(bankName.length === 0);
   }, [bankName.length]);
 
   const [correspondingAccount, setCorrespondingAccount] = useState<string>(
-    uiState.currentClient?.correspondingAccount || "",
+    client?.correspondingAccount || "",
   );
   const [correspondingAccountError, setCorrespondingAccountError] =
     useState<boolean>(false);

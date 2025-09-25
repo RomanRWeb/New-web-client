@@ -1,7 +1,7 @@
 "use client";
 import { EyeIcon } from "@app/common/icons/eye";
 import React, { CSSProperties, useState } from "react";
-import "./CustomInput.scss";
+import "../../styles/common/CustomInput.scss";
 import { CloseIcon } from "@app/common/icons/close";
 import { ErrorIcon } from "@app/common/icons/error";
 import DropdownList from "@app/common/components/dropdown-list/DropdownList";

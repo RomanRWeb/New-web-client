@@ -15,7 +15,7 @@ import { redirect } from "next/navigation";
 import { AppDispatch } from "@app/store/store";
 import { useDispatch } from "react-redux";
 import { setCurrentClient } from "@app/store/slices/uiSlice";
-import { Clients } from "@app/data/mocks";
+import { clients } from "@app/data/mocks";
 import {
   ClientTableHeaders,
   sellStateItems,
@@ -35,7 +35,7 @@ const ClientsMain: React.FC = () => {
     "",
   );
   const [selectedClient, setSelectedClient] = useState<ClientType | null>(null);
-  const [tableClients, setTableClients] = useState<ClientType[]>(Clients);
+  const [tableClients, setTableClients] = useState<ClientType[]>(clients);
 
   const handleClearFilters = useCallback(() => {
     setSearchValue("");
@@ -46,14 +46,14 @@ const ClientsMain: React.FC = () => {
   useEffect(() => {
     if (selectedClient !== null) {
       dispatch(
-        setCurrentClient(Clients.find((el) => el.id === selectedClient?.id)),
+        setCurrentClient(clients.find((el) => el.id === selectedClient?.id)),
       );
       redirect(`/home/clients/${selectedClient.id}`);
     }
   }, [dispatch, selectedClient]);
 
   useEffect(() => {
-    let newClientsData = Clients.map((el) => {
+    let newClientsData = clients.map((el) => {
       if (el.sellWaitData && el.sellState === "В ожидании") {
         return { ...el, sellState: `Ожидание до ${el.sellWaitData}` };
       } else return el;
@@ -91,13 +91,13 @@ const ClientsMain: React.FC = () => {
         />
         <DropdownBar
           title={"ПОДПИСКА"}
-          onSelect={setSubscribeFilter}
+          onSelect={setSubscribeFilter.toString}
           items={subscribeItems}
           selectedValue={subscribeFilter}
         />
         <DropdownBar
           title={"СТАТУС ПРОДАЖИ"}
-          onSelect={setSellStateFilter}
+          onSelect={setSellStateFilter.toString}
           items={sellStateItems}
           selectedValue={sellStateFilter}
         />

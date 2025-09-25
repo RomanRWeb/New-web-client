@@ -27,9 +27,8 @@ const ResetForm: React.FC<Props> = ({ onSubmit }) => {
     for (let i = 0; i < array.length; i++) {
       result += chars[array[i] % chars.length];
     }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const pswPlaceholder: any = result.match(/.{1,4}/g).join("-");
+
+    const pswPlaceholder: string = result.match(/.{1,4}/g)?.join("-") || "";
     if (pswPlaceholder !== null) {
       setPlaceholder(pswPlaceholder);
     } else setPlaceholder("");

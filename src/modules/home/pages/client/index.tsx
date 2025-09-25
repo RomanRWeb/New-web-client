@@ -1,7 +1,5 @@
 "use client";
-import { useSelector } from "react-redux";
-import { RootState } from "@app/store/store";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { redirect } from "next/navigation";
 import { ClientType, SellStateItem } from "@app/data/types";
 import {
@@ -15,25 +13,31 @@ import { CustomInput } from "@app/common/components/custom-input/CustomInput";
 import { HelpIcon } from "@app/common/icons/help";
 import DropdownBar from "@app/common/components/dropdown-bar/DropdownBar";
 import CustomTable from "@app/common/components/custom-table/CustomTable";
-import { changeListData } from "@app/data/mocks";
+import { changeListData, clients } from "@app/data/mocks";
 import Modal from "@app/common/components/modal/Modal";
-import LegalEntityModal from "@app/modules/home/components/legal-entity-modal/LegalEntityModal";
+import LegalEntityModal from "@app/modules/home/components/legal-entity-modal";
 import "@app/common/styles/pages/home/client.scss";
 
-const Client = () => {
-  const uiState = useSelector((state: RootState) => state.ui);
+interface ClientProps {
+  clientId: string;
+}
+
+const Client: React.FC<ClientProps> = ({ clientId }) => {
+  const [currentClient, setCurrentClient] = useState<ClientType | undefined>(
+    clients.find((client) => client.id === clientId),
+  );
 
   useEffect(() => {
-    if (uiState.currentClient === null) {
+    if (currentClient === undefined) {
       redirect("/home/clients");
     }
-  }, [uiState.currentClient]);
+  }, [currentClient]);
 
   useEffect(() => {
-    if (uiState.currentClient?.sellState === "В ожидании") {
+    if (currentClient?.sellState === "В ожидании") {
       setSellState("Ожидание до");
     }
-  }, [uiState.currentClient?.sellState]);
+  }, [currentClient?.sellState]);
 
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [showHelpModal, setShowHelpModal] = useState<boolean>(false);
@@ -42,26 +46,21 @@ const Client = () => {
   const [showCommentModal, setShowCommentModal] = useState<boolean>(false);
   const [commentary, setCommentary] = useState<string>();
   const [sellState, setSellState] = useState<SellStateItem | string>(
-    uiState.currentClient?.sellState || "-",
-  );
-  const [client, setClient] = useState<ClientType | null>(
-    uiState.currentClient,
+    currentClient?.sellState || "-",
   );
   const [newSubscribeDate, setNewSubscribeDate] = useState<string>(
-    client?.subscribeDate?.substring(client?.subscribeDate?.length - 10) || "",
+    currentClient?.subscribeDate?.substring(
+      currentClient?.subscribeDate?.length - 10,
+    ) || "",
   );
   const [sellDate, setSellDate] = useState<string>(
-    uiState.currentClient?.sellWaitData || "",
+    currentClient?.sellWaitData || "",
   );
-  const [phone, setPhone] = useState<string>(
-    uiState.currentClient?.ownerPhone || "",
-  );
-  const [email, setEmail] = useState<string>(
-    uiState.currentClient?.ownerEmail || "",
-  );
-  const [id, setID] = useState<string>(uiState.currentClient?.id || "");
+  const [phone, setPhone] = useState<string>(currentClient?.ownerPhone || "");
+  const [email, setEmail] = useState<string>(currentClient?.ownerEmail || "");
+  const [id, setID] = useState<string>(currentClient?.id || "");
   const [fullName, setFullName] = useState<string>(
-    uiState.currentClient?.ownerName || "",
+    currentClient?.ownerName || "",
   );
 
   const CommentaryField = useMemo(() => {
@@ -82,37 +81,38 @@ const Client = () => {
   }, [commentary]);
 
   const barWidth = useMemo(() => {
-    if (client?.cloudStorageUsage && client?.cloudStorageLimit) {
+    if (currentClient?.cloudStorageUsage && currentClient?.cloudStorageLimit) {
       return (
-        (Number(client?.cloudStorageUsage) /
-          Number(client?.cloudStorageLimit)) *
+        (Number(currentClient?.cloudStorageUsage) /
+          Number(currentClient?.cloudStorageLimit)) *
         100
       );
     } else return 0;
-  }, [client?.cloudStorageLimit, client?.cloudStorageUsage]);
+  }, [currentClient?.cloudStorageLimit, currentClient?.cloudStorageUsage]);
 
   const subscribeColor: string = useMemo(() => {
     return (
-      subscribeItemsColored.find((el) => el.text === client?.subscribeState)
-        ?.color || "inherit"
+      subscribeItemsColored.find(
+        (el) => el.text === currentClient?.subscribeState,
+      )?.color || "inherit"
     );
-  }, [client?.subscribeState]);
+  }, [currentClient?.subscribeState]);
 
   const handleDeleteClient = useCallback(() => {}, []);
 
   const handleEndTrial = useCallback(() => {
-    setClient({
-      ...client,
+    setCurrentClient({
+      ...currentClient,
       subscribeState: "Триал деактивирован",
     } as ClientType);
-  }, [client]);
+  }, [currentClient]);
 
   const handleChangeSubscribeDate = useCallback(() => {
-    setClient({
-      ...client,
+    setCurrentClient({
+      ...currentClient,
       subscribeDate: `Действует до ${newSubscribeDate}`,
     } as ClientType);
-  }, [client, newSubscribeDate]);
+  }, [currentClient, newSubscribeDate]);
 
   const handleSaveChanges = useCallback(() => {}, []);
 
@@ -132,26 +132,26 @@ const Client = () => {
           <h1>{"Общая информация"}</h1>
           <div className={"info-field"}>
             <span>{"Баланс:"}</span>
-            <b>{` ${client?.balance} руб.`}</b>
+            <b>{` ${currentClient?.balance} руб.`}</b>
           </div>
           <div className={"info-field"}>
             <span>{"Тариф:"}</span>
-            <b>{` ${client?.tariff} руб/мес`}</b>
+            <b>{` ${currentClient?.tariff} руб/мес`}</b>
           </div>
           <div className={"info-field"}>
             <span>{"Подключено пользователей:"}</span>
-            <b>{` ${client?.usersCount} руб.`}</b>
+            <b>{` ${currentClient?.usersCount} руб.`}</b>
           </div>
           <div className={"info-field"}>
             <span>{"Дата регистрации:"}</span>
-            <b>{` ${client?.registerDate} руб.`}</b>
+            <b>{` ${currentClient?.registerDate} руб.`}</b>
           </div>
         </Card>
         <Card>
           <h1>{"Потребление ресурсов (общее облако)"}</h1>
           <div className={"info-field"}>
             <span>{"Файловое хранилище:"}</span>
-            <b>{` ${client?.cloudStorageUsage || "-"} ГБ из ${client?.cloudStorageLimit || "-"} ГБ`}</b>
+            <b>{` ${currentClient?.cloudStorageUsage || "-"} ГБ из ${currentClient?.cloudStorageLimit || "-"} ГБ`}</b>
             <div className={"storage-usage-bar"}>
               <div
                 className={"storage-usage-progress"}
@@ -161,17 +161,17 @@ const Client = () => {
           </div>
           <div className={"info-field"}>
             <span>{"Нагрузка:"}</span>
-            <b>{` ${client?.requestPerDay || "-"} запросов / сутки`}</b>
+            <b>{` ${currentClient?.requestPerDay || "-"} запросов / сутки`}</b>
           </div>
         </Card>
         <Card>
           <h1>{"Подписка"}</h1>
           <CustomInput
-            value={client?.subscribeState || ""}
+            value={currentClient?.subscribeState || ""}
             title={"Статус подписки"}
             style={{ color: subscribeColor }}
           />
-          {client?.subscribeState === "Триал активен" ? (
+          {currentClient?.subscribeState === "Триал активен" ? (
             <div className={"button-wrapper"}>
               <CustomButton
                 buttonName={"Прекратить триал"}
@@ -213,11 +213,11 @@ const Client = () => {
         </Card>
         <Card>
           <h1>{"Реквизиты"}</h1>
-          {uiState.currentClient?.type !== "trial" ? (
+          {currentClient?.type !== "trial" ? (
             <div className={"radio-input-wrapper"}>
               <input type={"radio"} defaultChecked={true} />
               <span>
-                {uiState.currentClient?.type === "individual"
+                {currentClient?.type === "individual"
                   ? "Физическое лицо"
                   : "Юридическое лицо"}
               </span>
@@ -233,7 +233,7 @@ const Client = () => {
               onClick={() => setShowSaveModal(true)}
             />
           </div>
-          {uiState.currentClient?.type === "legal entity" ? (
+          {currentClient?.type === "legal entity" ? (
             <div>
               <CustomButton
                 buttonName={"Подробнее"}
@@ -296,6 +296,7 @@ const Client = () => {
       <LegalEntityModal
         isVisible={showEntityModal}
         onClose={() => setShowEntityModal(false)}
+        currentClient={currentClient}
       />
     </div>
   );

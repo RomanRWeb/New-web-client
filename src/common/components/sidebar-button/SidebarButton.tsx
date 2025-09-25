@@ -1,5 +1,5 @@
 "use client";
-import "./SidebarButton.scss";
+import "../../styles/common/SidebarButton.scss";
 import React, { useCallback } from "react";
 import { redirect } from "next/navigation";
 import { NavListType } from "@app/data/types";

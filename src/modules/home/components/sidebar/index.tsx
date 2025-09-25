@@ -1,5 +1,5 @@
 "use client";
-import "./SideBar.scss";
+import "../../../../common/styles/common/SideBar.scss";
 import React from "react";
 import { Logo } from "@app/common/components/images/Logo";
 import info from "../../../../../package.json";
@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@app/store/store";
 import { NavListHomeAdmin, NavListHomeManager } from "@app/data/constants";
 
-const SideBar: React.FC = () => {
+const Sidebar: React.FC = () => {
   const version = info.version;
 
   const uiState = useSelector((state: RootState) => state.ui);
@@ -63,4 +63,4 @@ const SideBar: React.FC = () => {
   );
 };
 
-export default SideBar;
+export default Sidebar;

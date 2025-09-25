@@ -1,11 +1,11 @@
 "use client";
-import "./ManagerCard.scss";
+import "../../../../common/styles/common/ManagerCard.scss";
 import React, { useEffect, useState } from "react";
 import Card from "@app/common/components/сard/Card";
 import { DropdownProps, ManagerType } from "@app/data/types";
 import { CustomInput } from "@app/common/components/custom-input/CustomInput";
 import DropdownBar from "@app/common/components/dropdown-bar/DropdownBar";
-import "./ManagerCard.scss";
+import "../../../../common/styles/common/ManagerCard.scss";
 import { managerRoles } from "@app/data/constants";
 
 interface ManagerCardProps {

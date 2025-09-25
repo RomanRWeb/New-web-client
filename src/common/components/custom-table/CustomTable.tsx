@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import "./CustomTable.scss";
+import "../../styles/common/CustomTable.scss";
 import { ColumnsHeader, TableProps } from "@app/data/types";
 import { TriangleUpIcon } from "@app/common/icons/triangle-up";
 import { TriangleDownIcon } from "@app/common/icons/triangle-down";
@@ -10,14 +10,14 @@ interface SortType {
   field: string;
   sort: "asc" | "desc";
 }
-
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 const CustomTable: React.FC<TableProps<any>> = ({
   columns,
   data,
   name,
   defaultSortField = "id",
   onClickRow,
-}: TableProps<any>) => {
+}) => {
   const maxIdCharCount: string = useMemo(() => {
     if (data.length > 0) {
       const tryCalcIdWidth: number = data.sort((a, b) => b.id - a.id)[0][

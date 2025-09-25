@@ -1,16 +1,18 @@
 "use client";
-import ManagerCard from "@app/modules/home/components/manager-card/ManagerCard";
+import ManagerCard from "@app/modules/home/components/manager-card";
 import React, { useCallback, useState } from "react";
 import { CustomButton } from "@app/common/components/custom-button/CustomButton";
-import { useSelector } from "react-redux";
-import { RootState } from "@app/store/store";
 import Modal from "@app/common/components/modal/Modal";
 import { redirect } from "next/navigation";
+import { fakeManagers } from "@app/data/mocks";
 
-const ManagerEdit: React.FC = () => {
+interface ManagerProps {
+  managerId: string;
+}
+
+const ManagerEdit: React.FC<ManagerProps> = ({ managerId }) => {
   const [dataCorrect, setDataCorrect] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const uiState = useSelector((state: RootState) => state.ui);
 
   const handleSave = useCallback(() => {
     redirect("/home/managers");
@@ -48,7 +50,7 @@ const ManagerEdit: React.FC = () => {
       <ManagerCard
         onDataCorrect={setDataCorrect}
         manager={
-          uiState.currentManager || {
+          fakeManagers.find((manager) => manager.id === managerId) || {
             id: "0",
             role: "",
             phone: "",

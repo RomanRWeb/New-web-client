@@ -1,4 +1,4 @@
-import "./SearchBar.scss";
+import "../../styles/common/SearchBar.scss";
 import React from "react";
 import { SearchIcon } from "@app/common/icons/search";
 

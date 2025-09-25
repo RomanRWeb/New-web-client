@@ -2,7 +2,7 @@
 import React, { useCallback, useMemo } from "react";
 import { DropdownProps } from "@app/data/types";
 import { ChevronDownIcon } from "@app/common/icons/chevron-down";
-import "./DropdownBar.scss";
+import "../../styles/common/DropdownBar.scss";
 
 interface DropdownPropsList {
   items: DropdownProps[];

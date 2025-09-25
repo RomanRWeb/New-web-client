@@ -29,7 +29,7 @@ export const fakeManagers: ManagerType[] = [
   },
 ];
 
-export const Clients: ClientType[] = [
+export const clients: ClientType[] = [
   {
     id: "112-547",
     name: "Test.admin@gmail.com",

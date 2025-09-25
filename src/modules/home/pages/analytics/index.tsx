@@ -12,7 +12,7 @@ import { ErrorInvertIcon } from "@app/common/icons/error-invert";
 import { WarningInvertIcon } from "@app/common/icons/warning-invert";
 import { useSelector } from "react-redux";
 import { RootState } from "@app/store/store";
-import ChartCard from "@app/modules/home/components/chart-card/ChartCard";
+import ChartCard from "@app/modules/home/components/chart-card";
 import "@app/common/styles/pages/home/analytics.scss";
 
 type ClientCardProps = Record<ClientsKeys, number>;
@@ -202,7 +202,7 @@ const Analytics: React.FC = () => {
   const [month, setMonth] = useState<string>("Январь");
 
   const [isIncomeMonthly, setIsIncomeMonthly] = useState<boolean>(false);
-
+  /* eslint-disable  @typescript-eslint/no-explicit-any */
   const isNumber = useCallback((value: any) => {
     return typeof value === "number" && !isNaN(value);
   }, []);

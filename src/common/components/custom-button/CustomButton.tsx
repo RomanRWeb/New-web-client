@@ -1,5 +1,5 @@
 "use client";
-import "./CustomButton.scss";
+import "../../styles/common/CustomButton.scss";
 import React, { CSSProperties } from "react";
 
 interface ButtonProps {
