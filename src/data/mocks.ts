@@ -3,7 +3,13 @@ import {
   ClientType,
   ManagerType,
   Tariff,
+  ChartCards,
 } from "@app/data/types";
+import { SuccessInvertIcon } from "@app/common/icons/success-invert";
+import { ErrorInvertIcon } from "@app/common/icons/error-invert";
+import { WarningInvertIcon } from "@app/common/icons/warning-invert";
+import React from "react";
+import ChartCard from "@app/modules/home/components/chart-card";
 
 export const fakeManagers: ManagerType[] = [
   {

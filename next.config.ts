@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   // Укажите базовый путь если сайт размещается в подпапке
-  assetPrefix: process.env.NODE_ENV === "production" ? "./_next/static" : "",
+  assetPrefix: process.env.NODE_ENV === "production" ? "" : "",
   basePath: process.env.NODE_ENV === "production" ? "" : "",
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],

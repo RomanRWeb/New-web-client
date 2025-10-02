@@ -68,10 +68,14 @@ const ChartCard: React.FC<createCardProps> = ({
   const createLegendLabels = useCallback(
     ({ value, sumValue, key, icon }: LegendLabelProps) => {
       const percent = value && sumValue ? (value / sumValue) * 100 : 0;
+      let percentShow: string = percent.toFixed(1);
+      if (percentShow[percentShow.length - 1] === "0") {
+        percentShow = percent.toFixed(0);
+      }
       return (
         <span key={key}>
           {icon}
-          {`${percent.toFixed(1)}%`}
+          {`${percentShow}%`}
         </span>
       );
     },

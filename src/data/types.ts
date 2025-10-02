@@ -1,4 +1,5 @@
 export type Params = Promise<{ id: string }>;
+export type ParamsToken = Promise<{ token: string }>;
 
 export interface DropdownProps {
   text: string;
