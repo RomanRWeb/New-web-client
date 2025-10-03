@@ -1,9 +1,11 @@
 "use client";
-import "../../../../common/styles/common/ManagerCard.scss";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Card from "@app/common/components/сard/Card";
 import { DropdownProps, ManagerType } from "@app/data/types";
-import { CustomInput } from "@app/common/components/custom-input/CustomInput";
+import {
+  CustomInput,
+  CustomInputPhone,
+} from "@app/common/components/custom-input/CustomInput";
 import DropdownBar from "@app/common/components/dropdown-bar/DropdownBar";
 import "../../../../common/styles/common/ManagerCard.scss";
 import { managerRoles } from "@app/data/constants";
@@ -11,6 +13,7 @@ import { managerRoles } from "@app/data/constants";
 interface ManagerCardProps {
   manager?: ManagerType;
   onDataCorrect: (b: boolean) => void;
+  isAdd?: boolean;
 }
 
 const ManagerCard: React.FC<ManagerCardProps> = ({
@@ -21,60 +24,42 @@ const ManagerCard: React.FC<ManagerCardProps> = ({
     phone: "",
     password: "",
   },
+  isAdd = false,
   onDataCorrect,
 }) => {
   const dropdownItems: DropdownProps[] = managerRoles.map((role) => ({
     text: role,
   }));
-
-  const [managerFullName, setManagerFullName] = useState<string>(
-    manager.fullName,
-  );
-
+  const [fullName, setFullName] = useState<string>(manager.fullName);
+  const [fullNameErr, setFullNameErr] = useState<boolean>(isAdd);
   const [role, setRole] = useState<string>(manager.role);
-  const [managerPhone, setManagerPhone] = useState<string>(manager.phone);
-  const [phoneError, setPhoneError] = useState<boolean>(false);
-  const [managerPassword, setManagerPassword] = useState<string>(
-    manager.password,
-  );
+  const [phone, setPhone] = useState<string>(manager.phone);
+  const [phoneError, setPhoneError] = useState<boolean>(isAdd);
+  const [password, setPassword] = useState<string>(manager.password);
+  const [passwordErr, setPasswordErr] = useState<boolean>(isAdd);
+
+  const digitRegex = useMemo(() => /^.{2,}$/, []);
 
   useEffect(() => {
-    console.log("role", JSON.stringify(role, null, 2));
-  }, [role]);
+    console.log("fullNameErr", JSON.stringify(fullNameErr, null, 2));
+  }, [fullNameErr]);
 
   useEffect(() => {
-    const phoneRegex =
-      /^[+]?[0-9][(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{2}[-\s.]?[0-9]{2}$/;
-    if (!phoneRegex.test(managerPhone)) {
-      setPhoneError(true);
-    } else setPhoneError(false);
-  }, [managerPhone]);
-
-  useEffect(() => {
-    if (
-      role &&
-      managerFullName.length > 0 &&
-      managerPhone.length > 0 &&
-      managerPassword.length > 0
-    ) {
+    if (role && !fullNameErr && !phoneError && !passwordErr) {
       onDataCorrect(true);
-    }
-  }, [
-    managerFullName.length,
-    managerPassword.length,
-    managerPhone.length,
-    onDataCorrect,
-    role,
-  ]);
+    } else onDataCorrect(false);
+  }, [fullNameErr, onDataCorrect, passwordErr, phoneError, role]);
 
   return (
     <Card>
       <h1>{"Информация о менеджере"}</h1>
       <CustomInput
-        value={managerFullName}
-        onChange={setManagerFullName}
+        value={fullName}
+        onChange={setFullName}
         title={"ФИО"}
-        errState={managerFullName.length === 0}
+        errState={fullNameErr}
+        regex={digitRegex}
+        setError={setFullNameErr}
       />
       <DropdownBar
         items={dropdownItems}
@@ -82,17 +67,20 @@ const ManagerCard: React.FC<ManagerCardProps> = ({
         onSelect={setRole}
         selectedValue={role}
       />
-      <CustomInput
-        value={managerPhone}
-        onChange={setManagerPhone}
+      <CustomInputPhone
+        value={phone}
+        onChange={setPhone}
         title={"Телефон"}
         errState={phoneError}
+        setError={setPhoneError}
       />
       <CustomInput
-        value={managerPassword}
-        onChange={setManagerPassword}
+        value={password}
+        onChange={setPassword}
         title={"Пароль"}
-        errState={managerPassword.length === 0}
+        errState={passwordErr}
+        regex={digitRegex}
+        setError={setPasswordErr}
       />
     </Card>
   );

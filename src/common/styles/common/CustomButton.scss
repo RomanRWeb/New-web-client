@@ -97,15 +97,9 @@
   background-clip: text;
   color: transparent;
   border-radius: 4px;
-  box-shadow:
-    inset 0 0 0 0 #0c0c0d0c,
-    inset 0 0 0 0 #0c0c0d19;
   transition: ease-in 0.2s box-shadow;
 
   &:hover {
-    box-shadow:
-      inset 0 0 5px 0 #0c0c0d0c,
-      inset 0 0 4px 0 #0c0c0d19;
   }
 
   &:disabled {

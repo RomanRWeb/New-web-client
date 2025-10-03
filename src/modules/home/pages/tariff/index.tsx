@@ -1,6 +1,6 @@
 "use client";
 import "@app/common/styles/pages/home/tariff.scss";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Tariff } from "@app/data/types";
 import { fakeTariff } from "@app/data/mocks";
 import "@app/common/styles/pages/home/tariff.scss";
@@ -12,6 +12,7 @@ import { CheckIcon } from "@app/common/icons/check";
 const TariffMain = () => {
   const [tariff, setTariff] = useState<Tariff>(fakeTariff); //fixme: mock
   const [editMode, setEditMode] = useState<boolean>(false);
+  const numberRegex = useMemo(() => /^\d+$/, []);
 
   const [basicCost, setBasicCost] = useState<string>(tariff.basicCost);
   const [basicCostError, setBasicCostError] = useState<boolean>(false);
@@ -21,22 +22,21 @@ const TariffMain = () => {
   );
   const [managersCountError, setManagersCountError] = useState<boolean>(false);
 
-  const [cloudStorageVolume, setCloudStorageVolume] = useState<string>(
+  const [cloudVolume, setCloudVolume] = useState<string>(
     tariff.cloudStorageVolume,
   );
-  const [cloudStorageVolumeError, setCloudStorageVolumeError] =
-    useState<boolean>(false);
+  const [cloudVolumeError, setCloudVolumeError] = useState<boolean>(false);
 
-  const [addingCostPerManager, setAddingCostPerManager] = useState<string>(
+  const [addCostManager, setAddingCostPerManager] = useState<string>(
     tariff.addingCostPerManager,
   );
-  const [addingCostPerManagerError, setAddingCostPerManagerError] =
+  const [addCostManagerError, setAddingCostPerManagerError] =
     useState<boolean>(false);
 
-  const [addingCostPerStorage, setAddingCostPerStorage] = useState<string>(
-    tariff.addingCostPerManager,
+  const [addCostStorage, setAddingCostPerStorage] = useState<string>(
+    tariff.addingCostPerStorage,
   );
-  const [addingCostPerStorageError, setAddingCostPerStorageError] =
+  const [addCostStorageError, setAddingCostPerStorageError] =
     useState<boolean>(false);
 
   const [isDataTrue, setIsDataTrue] = useState<boolean>(false);
@@ -45,17 +45,17 @@ const TariffMain = () => {
     if (
       !basicCostError &&
       !managersCountError &&
-      !cloudStorageVolumeError &&
-      !addingCostPerManagerError &&
-      !addingCostPerStorageError
+      !cloudVolumeError &&
+      !addCostManagerError &&
+      !addCostStorageError
     ) {
       setIsDataTrue(true);
     } else setIsDataTrue(false);
   }, [
-    addingCostPerManagerError,
-    addingCostPerStorageError,
+    addCostManagerError,
+    addCostStorageError,
     basicCostError,
-    cloudStorageVolumeError,
+    cloudVolumeError,
     managersCountError,
   ]);
 
@@ -64,80 +64,36 @@ const TariffMain = () => {
       setTariff({
         basicCost: basicCost,
         managersCount: managersCount,
-        cloudStorageVolume: cloudStorageVolume,
-        addingCostPerStorage: addingCostPerManager,
-        addingCostPerManager: addingCostPerStorage,
+        cloudStorageVolume: cloudVolume,
+        addingCostPerManager: addCostManager,
+        addingCostPerStorage: addCostStorage,
       });
       setEditMode(false);
     }
   }, [
-    addingCostPerManager,
-    addingCostPerStorage,
+    addCostManager,
+    addCostStorage,
     basicCost,
-    cloudStorageVolume,
+    cloudVolume,
     isDataTrue,
     managersCount,
     setEditMode,
     setTariff,
   ]);
 
-  useEffect(() => {
-    const numberRegex = /^\d+$/;
-    if (numberRegex.test(basicCost)) {
-      setBasicCostError(false);
-    } else {
-      setBasicCostError(true);
-    }
-  }, [basicCost]);
-
-  useEffect(() => {
-    const numberRegex = /^\d+$/;
-    if (numberRegex.test(managersCount)) {
-      setManagersCountError(false);
-    } else {
-      setManagersCountError(true);
-    }
-  }, [managersCount]);
-
-  useEffect(() => {
-    const numberRegex = /^\d+$/;
-    if (numberRegex.test(cloudStorageVolume)) {
-      setCloudStorageVolumeError(false);
-    } else {
-      setCloudStorageVolumeError(true);
-    }
-  }, [cloudStorageVolume]);
-
-  useEffect(() => {
-    const numberRegex = /^\d+$/;
-    if (numberRegex.test(addingCostPerManager)) {
-      setAddingCostPerManagerError(false);
-    } else {
-      setAddingCostPerManagerError(true);
-    }
-  }, [addingCostPerManager]);
-
-  useEffect(() => {
-    const numberRegex = /^\d+$/;
-    if (numberRegex.test(addingCostPerStorage)) {
-      setAddingCostPerStorageError(false);
-    } else {
-      setAddingCostPerStorageError(true);
-    }
-  }, [addingCostPerStorage]);
-
   const handleEditSwitch = useCallback(() => {
     setEditMode(!editMode);
     if (!editMode) {
       setBasicCost(tariff.basicCost);
       setManagersCount(tariff.managersCount);
-      setCloudStorageVolume(tariff.cloudStorageVolume);
+      setCloudVolume(tariff.cloudStorageVolume);
       setAddingCostPerManager(tariff.addingCostPerManager);
-      setAddingCostPerStorage(tariff.addingCostPerManager);
+      setAddingCostPerStorage(tariff.addingCostPerStorage);
     }
   }, [
     editMode,
     tariff.addingCostPerManager,
+    tariff.addingCostPerStorage,
     tariff.basicCost,
     tariff.cloudStorageVolume,
     tariff.managersCount,
@@ -169,6 +125,8 @@ const TariffMain = () => {
                 onChange={setBasicCost}
                 errState={basicCostError}
                 key={"basicCostInput"}
+                regex={numberRegex}
+                setError={setBasicCostError}
               />
               <span>{"/месяц"}</span>
             </div>
@@ -184,26 +142,32 @@ const TariffMain = () => {
                   onChange={setManagersCount}
                   errState={managersCountError}
                   key={"managerCountInput"}
+                  regex={numberRegex}
+                  setError={setManagersCountError}
                 />
                 <span>{"сотрудник"}</span>
               </li>
               <li>
                 <CheckIcon />
                 <CustomInput
-                  value={cloudStorageVolume}
-                  onChange={setCloudStorageVolume}
-                  errState={cloudStorageVolumeError}
-                  key={"cloudStorageVolumeInput"}
+                  value={cloudVolume}
+                  onChange={setCloudVolume}
+                  errState={cloudVolumeError}
+                  key={"cloudVolumeInput"}
+                  regex={numberRegex}
+                  setError={setCloudVolumeError}
                 />
                 <span>{"ГБ облачного хранилища"}</span>
               </li>
             </div>
             <div className={"tariff-value"}>
               <CustomInput
-                value={addingCostPerManager}
+                value={addCostManager}
                 onChange={setAddingCostPerManager}
-                errState={addingCostPerManagerError}
-                key={"addingCostPerManagerInput"}
+                errState={addCostManagerError}
+                key={"addCostManagerInput"}
+                regex={numberRegex}
+                setError={setAddingCostPerManagerError}
               />
               <span>{"/месяц"}</span>
               <div>
@@ -212,10 +176,12 @@ const TariffMain = () => {
             </div>
             <div className={"tariff-value"}>
               <CustomInput
-                value={addingCostPerStorage}
+                value={addCostStorage}
                 onChange={setAddingCostPerStorage}
-                errState={addingCostPerStorageError}
-                key={"addingCostPerStorageInput"}
+                errState={addCostStorageError}
+                key={"addCostStorageInput"}
+                regex={numberRegex}
+                setError={setAddingCostPerStorageError}
               />
               <span>{"/месяц"}</span>
               <div>
@@ -230,7 +196,7 @@ const TariffMain = () => {
           <h1>{"Базовая стоимость"}</h1>
           <section className={"tariff"}>
             <div className={"tariff-value"}>
-              <h1>{`${tariff.basicCost}₽`}</h1>
+              <h1>{`${parseFloat(tariff.basicCost).toLocaleString()}₽`}</h1>
               <span>{"/месяц"}</span>
             </div>
             <div className={"tariff-value"}>
@@ -246,14 +212,14 @@ const TariffMain = () => {
               </li>
             </div>
             <div className={"tariff-value"}>
-              <h1>{`${tariff.addingCostPerManager}₽`}</h1>
+              <h1>{`${parseFloat(tariff.addingCostPerManager).toLocaleString()}₽`}</h1>
               <span>{"/месяц"}</span>
               <div>
                 <span>{"за каждого дополнительного сотрудника"}</span>
               </div>
             </div>
             <div className={"tariff-value"}>
-              <h1>{`${tariff.addingCostPerStorage}₽`}</h1>
+              <h1>{`${parseFloat(tariff.addingCostPerStorage).toLocaleString()}₽`}</h1>
               <span>{"/месяц"}</span>
               <div>
                 <span>{"за каждые дополнительные 5ГБ хранилища"}</span>

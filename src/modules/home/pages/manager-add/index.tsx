@@ -21,7 +21,7 @@ const ManagerAdd: React.FC = () => {
           gray={true}
         />
       </div>
-      <ManagerCard onDataCorrect={setDataCorrect} />
+      <ManagerCard onDataCorrect={setDataCorrect} isAdd={true} />
     </>
   );
 };

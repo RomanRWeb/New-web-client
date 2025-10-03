@@ -3,7 +3,10 @@ import "../../../../common/styles/common/LegalEntityModal.scss";
 import Modal from "@app/common/components/modal/Modal";
 import { ChevronLeftIcon } from "@app/common/icons/chevron-left";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { CustomInput } from "@app/common/components/custom-input/CustomInput";
+import {
+  CustomInput,
+  CustomInputPhone,
+} from "@app/common/components/custom-input/CustomInput";
 import { CustomButton } from "@app/common/components/custom-button/CustomButton";
 import { CloseInnIcon } from "@app/common/icons/close-inn";
 import { SuccessInnIcon } from "@app/common/icons/success-inn";
@@ -21,174 +24,118 @@ const LegalEntityModal = ({
   currentClient,
 }: ModalProps) => {
   const [client, setClient] = useState<ClientType | undefined>(currentClient);
-  const onlyDigitsRegex = useMemo(() => /^\d{10}$/, []);
+  const onlyDigitsRegex = useMemo(() => /^\d+$/, []);
   const fullNameRegex = useMemo(
     () => /^[а-яА-ЯёЁ]{2,}\s[а-яА-ЯёЁ]{2,}(\s[а-яА-ЯёЁ]{2,})?$/u,
     [],
   );
-  const phoneRegex = useMemo(
+  const digitRegex = useMemo(() => /^.{2,}$/, []);
+  const emailRegex = useMemo(
     () =>
-      /^[+]?[0-9][-\s.]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{2}[-\s.]?[0-9]{2}$/,
+      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i,
     [],
   );
+  const innRegex = useMemo(() => /^\d{10}$/, []);
+  const anythingRegex = useMemo(() => /^.{2,}$/, []);
+  const kppRegex = useMemo(() => /^\d{9}$/, []);
+  const ogrnRegex = useMemo(() => /^\d{13}$/, []);
+  const currAccRegex = useMemo(() => /^\d{20}$/, []);
+  const bikRegex = useMemo(() => /^\d{9}$/, []);
+  const corrAccRegex = useMemo(() => /^\d{20}$/, []);
 
   const [inn, setInn] = useState<string>(client?.inn || "");
-  const [isInnOk, setIsInnOk] = useState<boolean>(false);
+  const [innError, setInnError] = useState<boolean>(false);
   const [innNotFound, setInnNotFound] = useState<boolean>(false);
-  useEffect(() => {
-    setIsInnOk(onlyDigitsRegex.test(inn.replaceAll(" ", "")));
-  }, [inn, onlyDigitsRegex]);
 
   useEffect(() => {
-    if (isInnOk) {
+    if (!innError) {
       if (Number(inn[inn.length - 1]) % 2 !== 0) {
         setInnNotFound(true);
       } else setInnNotFound(false);
     }
-  }, [isInnOk]);
+  }, [innError]);
 
   const [adminName, setAdminName] = useState<string>(client?.adminName || "");
   const [adminNameError, setAdminNameError] = useState<boolean>(false);
-  useEffect(() => {
-    setAdminNameError(adminName.length === 0);
-  }, [adminName, fullNameRegex]);
 
   const [adminEmail, setAdminEmail] = useState<string>(
     client?.adminEmail || "",
   );
   const [adminEmailError, setAdminEmailError] = useState<boolean>(false);
-  useEffect(() => {
-    setAdminEmailError(adminEmail.length === 0);
-  }, [adminEmail.length]);
 
   const [adminPhone, setAdminPhone] = useState<string>(
     client?.adminPhone || "",
   );
   const [adminPhoneError, setAdminPhoneError] = useState<boolean>(false);
-  useEffect(() => {
-    setAdminPhoneError(!phoneRegex.test(adminPhone) || adminPhone.length === 0);
-  }, [adminPhone, phoneRegex]);
 
   const [ownerName, setOwnerName] = useState<string>(client?.name || "");
   const [ownerNameError, setOwnerNameError] = useState<boolean>(false);
-  useEffect(() => {
-    setOwnerNameError(ownerName.length === 0);
-  }, [ownerName.length]);
 
   const [ownerEmail, setOwnerEmail] = useState<string>(
     client?.ownerEmail || "",
   );
   const [ownerEmailError, setOwnerEmailError] = useState<boolean>(false);
-  useEffect(() => {
-    setOwnerEmailError(ownerEmail.length === 0);
-  }, [ownerEmail.length]);
 
   const [ownerPhone, setOwnerPhone] = useState<string>(
     client?.ownerPhone || "",
   );
   const [ownerPhoneError, setOwnerPhoneError] = useState<boolean>(false);
-  useEffect(() => {
-    setOwnerPhoneError(!phoneRegex.test(ownerPhone) || ownerPhone.length === 0);
-  }, [ownerPhone, phoneRegex]);
 
   const [organizationName, setOrganizationName] = useState<string>(
     client?.organizationName || "",
   );
   const [organizationNameError, setOrganizationNameError] =
     useState<boolean>(false);
-  useEffect(() => {
-    setOrganizationNameError(organizationName.length === 0);
-  }, [organizationName.length]);
 
   const [kpp, setKpp] = useState<string>(client?.kpp || "");
   const [kppError, setKppError] = useState<boolean>(false);
-  useEffect(() => {
-    setKppError(onlyDigitsRegex.test(kpp) || kpp.length !== 9);
-  }, [kpp, onlyDigitsRegex]);
 
   const [ogrn, setOgrn] = useState<string>(client?.ogrn || "");
   const [ogrnError, setOgrnError] = useState<boolean>(false);
-  useEffect(() => {
-    setOgrnError(onlyDigitsRegex.test(ogrn) || ogrn.length !== 13);
-  }, [ogrn, onlyDigitsRegex]);
 
   const [documentAddress, setDocumentAddress] = useState<string>(
     client?.documentAddress || "",
   );
   const [documentAddressError, setDocumentAddressError] =
     useState<boolean>(false);
-  useEffect(() => {
-    setDocumentAddressError(documentAddress.length === 0);
-  }, [documentAddress.length]);
 
   const [physicalAddress, setPhysicalAddress] = useState<string>(
     client?.physicalAddress || "",
   );
   const [physicalAddressError, setPhysicalAddressError] =
     useState<boolean>(false);
-  useEffect(() => {
-    setPhysicalAddressError(physicalAddress.length === 0);
-  }, [physicalAddress.length]);
 
   const [gmName, setGmName] = useState<string>(client?.gmName || "");
   const [gmNameError, setGmNameError] = useState<boolean>(false);
-  useEffect(() => {
-    setGmNameError(gmName.length === 0);
-  }, [gmName.length]);
 
   const [accountantName, setAccountantName] = useState<string>(
     client?.accountantName || "",
   );
   const [accountantNameError, setAccountantNameError] =
     useState<boolean>(false);
-  useEffect(() => {
-    setAccountantNameError(accountantName.length === 0);
-  }, [accountantName.length]);
 
   const [companyPhone, setCompanyPhone] = useState<string>(
     client?.companyPhone || "",
   );
   const [companyPhoneError, setCompanyPhoneError] = useState<boolean>(false);
-  useEffect(() => {
-    setCompanyPhoneError(
-      !phoneRegex.test(companyPhone) || companyPhone.length === 0,
-    );
-  }, [companyPhone, phoneRegex]);
 
   const [currentAccount, setCurrentAccount] = useState<string>(
     client?.currentAccount || "",
   );
   const [currentAccountError, setCurrentAccountError] =
     useState<boolean>(false);
-  useEffect(() => {
-    setCurrentAccountError(
-      onlyDigitsRegex.test(currentAccount) || currentAccount.length !== 20,
-    );
-  }, [currentAccount, onlyDigitsRegex]);
 
   const [bik, setBik] = useState<string>(client?.bik || "");
   const [bikError, setBikError] = useState<boolean>(false);
-  useEffect(() => {
-    setBikError(onlyDigitsRegex.test(bik) || bik.length !== 9);
-  }, [bik, onlyDigitsRegex]);
 
   const [bankName, setBankName] = useState<string>(client?.bankName || "");
   const [bankNameError, setBankNameError] = useState<boolean>(false);
-  useEffect(() => {
-    setBankNameError(bankName.length === 0);
-  }, [bankName.length]);
 
   const [correspondingAccount, setCorrespondingAccount] = useState<string>(
     client?.correspondingAccount || "",
   );
   const [correspondingAccountError, setCorrespondingAccountError] =
     useState<boolean>(false);
-  useEffect(() => {
-    setCorrespondingAccountError(
-      onlyDigitsRegex.test(correspondingAccount) ||
-        correspondingAccount.length !== 20,
-    );
-  }, [correspondingAccount, onlyDigitsRegex]);
 
   const [dataOk, setDataOk] = useState<boolean>(true);
   useEffect(() => {
@@ -200,7 +147,7 @@ const LegalEntityModal = ({
       !ownerPhoneError &&
       !ownerEmailError &&
       !innNotFound &&
-      isInnOk &&
+      !innError &&
       !organizationNameError &&
       !kppError &&
       !ogrnError &&
@@ -229,7 +176,7 @@ const LegalEntityModal = ({
     documentAddressError,
     gmNameError,
     innNotFound,
-    isInnOk,
+    innError,
     kppError,
     ogrnError,
     organizationNameError,
@@ -296,7 +243,7 @@ const LegalEntityModal = ({
     >
       <div className={"header"}>
         <h1>{"Данные организации"}</h1>
-        {dataOk && isInnOk && !innNotFound ? (
+        {dataOk && !innError && !innNotFound ? (
           <span className={"message"}>
             {"Заполните данные организации для создание плательщика"}
           </span>
@@ -323,18 +270,23 @@ const LegalEntityModal = ({
               title={"ФИО админа"}
               onChange={setAdminName}
               errState={adminNameError}
+              regex={fullNameRegex}
+              setError={setAdminNameError}
             />
-            <CustomInput
+            <CustomInputPhone
               value={adminPhone}
               title={"Телефон админа"}
               onChange={setAdminPhone}
               errState={adminPhoneError}
+              setError={setAdminPhoneError}
             />
             <CustomInput
               value={adminEmail}
               title={"Email админа"}
               onChange={setAdminEmail}
               errState={adminEmailError}
+              regex={emailRegex}
+              setError={setAdminEmailError}
             />
           </section>
           <section>
@@ -349,18 +301,23 @@ const LegalEntityModal = ({
               title={"ФИО админа"}
               onChange={setOwnerName}
               errState={ownerNameError}
+              regex={fullNameRegex}
+              setError={setOwnerNameError}
             />
-            <CustomInput
+            <CustomInputPhone
               value={ownerPhone}
               title={"Телефон админа"}
               onChange={setOwnerPhone}
               errState={ownerPhoneError}
+              setError={setOwnerPhoneError}
             />
             <CustomInput
               value={ownerEmail}
               title={"Email админа"}
               onChange={setOwnerEmail}
               errState={ownerEmailError}
+              regex={emailRegex}
+              setError={setOwnerEmailError}
             />
             <div>
               <CustomButton
@@ -377,9 +334,11 @@ const LegalEntityModal = ({
               value={inn}
               title={"ИНН"}
               onChange={setInn}
-              errState={!isInnOk}
+              errState={innError}
+              regex={innRegex}
+              setError={setInnError}
             />
-            {isInnOk && !innNotFound ? (
+            {!innError && !innNotFound ? (
               <>
                 <div>
                   <SuccessInnIcon />
@@ -406,45 +365,57 @@ const LegalEntityModal = ({
               <section>
                 <CustomInput
                   title={"Название организации"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={organizationName}
                   onChange={setOrganizationName}
                   errState={organizationNameError}
+                  regex={anythingRegex}
+                  setError={setOrganizationNameError}
                 />
                 <CustomInput
                   title={"КПП"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={kpp}
                   onChange={setKpp}
                   errState={kppError}
+                  regex={kppRegex}
+                  setError={setKppError}
                 />
                 <CustomInput
                   title={"ОГРН"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={ogrn}
                   onChange={setOgrn}
                   errState={ogrnError}
+                  regex={ogrnRegex}
+                  setError={setOgrnError}
                 />
                 <CustomInput
                   title={"Юридический адрес"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={documentAddress}
                   onChange={setDocumentAddress}
                   errState={documentAddressError}
+                  regex={anythingRegex}
+                  setError={setDocumentAddressError}
                 />
                 <CustomInput
                   title={"Фактический адрес"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={physicalAddress}
                   onChange={setPhysicalAddress}
                   errState={physicalAddressError}
+                  regex={anythingRegex}
+                  setError={setPhysicalAddressError}
                 />
                 <CustomInput
                   title={"ФИО генерального директора"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={gmName}
                   onChange={setGmName}
                   errState={gmNameError}
+                  regex={fullNameRegex}
+                  setError={setGmNameError}
                 />
               </section>
             </div>
@@ -452,45 +423,56 @@ const LegalEntityModal = ({
               <section>
                 <CustomInput
                   title={"ФИО бухгалтера"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={accountantName}
                   onChange={setAccountantName}
                   errState={accountantNameError}
+                  regex={fullNameRegex}
+                  setError={setAccountantNameError}
                 />
-                <CustomInput
+                <CustomInputPhone
                   title={"Телефон компании"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={companyPhone}
                   onChange={setCompanyPhone}
                   errState={companyPhoneError}
+                  setError={setCompanyPhoneError}
                 />
                 <CustomInput
                   title={"№ расчетного счета"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={currentAccount}
                   onChange={setCurrentAccount}
                   errState={currentAccountError}
+                  regex={currAccRegex}
+                  setError={setCurrentAccountError}
                 />
                 <CustomInput
                   title={"БИК"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={bik}
                   onChange={setBik}
                   errState={bikError}
+                  regex={bikRegex}
+                  setError={setBikError}
                 />
                 <CustomInput
                   title={"Наименование банка"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={bankName}
                   onChange={setBankName}
                   errState={bankNameError}
+                  regex={anythingRegex}
+                  setError={setBankNameError}
                 />
                 <CustomInput
                   title={"Корреспондентский счет"}
-                  disabled={!isInnOk || innNotFound}
+                  disabled={innError || innNotFound}
                   value={correspondingAccount}
                   onChange={setCorrespondingAccount}
                   errState={correspondingAccountError}
+                  regex={corrAccRegex}
+                  setError={setCorrespondingAccountError}
                 />
               </section>
             </div>

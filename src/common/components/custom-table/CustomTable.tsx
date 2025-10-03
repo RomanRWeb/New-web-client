@@ -10,6 +10,7 @@ interface SortType {
   field: string;
   sort: "asc" | "desc";
 }
+
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 const CustomTable: React.FC<TableProps<any>> = ({
   columns,
@@ -103,6 +104,26 @@ const CustomTable: React.FC<TableProps<any>> = ({
     [],
   );
 
+  const createItem = ({ item, col }: { item: any; col: ColumnsHeader }) => {
+    const color: string = findColor({ col: col, item: item }) || "inherit";
+    const fontWeight: string = col.isBold ? "700" : "500";
+
+    let itemText: string = item[col.name];
+    if (itemText && /^\d+$/.test(itemText)) {
+      if (col.isNumber) {
+        itemText = parseFloat(itemText).toLocaleString();
+      }
+    } else if (!itemText) {
+      itemText = col.nonExistPlaceholder || "-";
+    }
+
+    return (
+      <td key={col.name} style={{ color: color, fontWeight: fontWeight }}>
+        {itemText}
+      </td>
+    );
+  };
+
   return (
     <div className={"table"}>
       {name ? <h1>{name}</h1> : null}
@@ -116,14 +137,7 @@ const CustomTable: React.FC<TableProps<any>> = ({
               key={idx}
               onClick={() => (onClickRow ? onClickRow(item) : null)}
             >
-              {columns.map((col) => (
-                <td
-                  key={col.name}
-                  style={{ color: findColor({ col: col, item: item }) }}
-                >
-                  {item[col.name]}
-                </td>
-              ))}
+              {columns.map((col) => createItem({ col: col, item: item }))}
             </tr>
           ))}
         </tbody>

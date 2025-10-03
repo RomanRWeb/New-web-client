@@ -1,11 +1,11 @@
 "use client";
 import { EyeIcon } from "@app/common/icons/eye";
-import React, { CSSProperties, useState } from "react";
+import React, { CSSProperties, useCallback, useEffect, useState } from "react";
 import "../../styles/common/CustomInput.scss";
-import { CloseIcon } from "@app/common/icons/close";
 import { ErrorIcon } from "@app/common/icons/error";
 import DropdownList from "@app/common/components/dropdown-list/DropdownList";
 import { DropdownProps } from "@app/data/types";
+import { EyeOffIcon } from "@app/common/icons/eye-off";
 
 interface InputProps {
   style?: CSSProperties;
@@ -18,14 +18,16 @@ interface InputProps {
   dropdownOption?: DropdownProps[];
   dropdownWidth?: number;
   disabled?: boolean;
+  setError?: (value: boolean) => void;
+  regex?: RegExp;
 }
 
-const normalStyle = {
+const normalStyle: CSSProperties = {
   borderColor: "#E6E6E6FF",
   outlineColor: "#E6E6E6FF",
 };
 
-const errorStyle = {
+const errorStyle: CSSProperties = {
   borderColor: "#E84646FF",
   backgroundColor: "#FDEDEDFF",
   outlineColor: "#E84646FF",
@@ -39,13 +41,92 @@ const CustomInput: React.FC<InputProps> = ({
   errState = false,
   style,
   disabled = false,
+  regex,
+  setError,
 }: InputProps) => {
+  const changeFunc = useCallback(
+    (value: string) => {
+      if (regex && setError) {
+        if (regex.test(value.toString())) {
+          setError(false);
+        } else setError(true);
+      }
+      if (onChange) {
+        onChange(value);
+      }
+    },
+    [onChange, regex, setError],
+  );
+
+  const finalStyle = useCallback(() => {
+    if (errState && !disabled) {
+      return errorStyle;
+    } else return { ...normalStyle, ...style };
+  }, [disabled, errState, style]);
+
   return (
     <div className={"custom-input"}>
       <span>{title}</span>
       <span className={"input-wrapper"}>
         <input
-          onChange={(e) => (onChange ? onChange(e.target.value) : null)}
+          onChange={(e) => changeFunc(e.target.value)}
+          placeholder={placeholder}
+          value={value}
+          style={finalStyle()}
+          disabled={disabled}
+        />
+      </span>
+    </div>
+  );
+};
+
+const CustomInputPhone: React.FC<InputProps> = ({
+  title,
+  onChange,
+  placeholder = "",
+  value,
+  errState = false,
+  style,
+  disabled = false,
+  setError,
+}: InputProps) => {
+  const changeFunc = useCallback(
+    (value: string) => {
+      const inputString = value.replace(/\D/g, "");
+      if (setError) {
+        if (inputString.length === 11) {
+          setError(false);
+        } else {
+          setError(true);
+        }
+      }
+      if (onChange) {
+        let phone = "";
+        if (inputString.length > 0) {
+          phone = phone.concat("+7 (", inputString.substring(1, 4));
+        }
+        if (inputString.length >= 5) {
+          phone = phone.concat(") ", inputString.substring(4, 7));
+        }
+        if (inputString.length >= 8) {
+          phone = phone.concat("-", inputString.substring(7, 9));
+        }
+        if (inputString.length >= 10) {
+          phone = phone.concat("-", inputString.substring(9, 11));
+        }
+        console.log("phone", JSON.stringify(phone, null, 2));
+        onChange(phone);
+      }
+    },
+    [onChange, setError],
+  );
+
+  return (
+    <div className={"custom-input"}>
+      <span>{title}</span>
+      <span className={"input-wrapper"}>
+        <input
+          onChange={(e) => changeFunc(e.target.value)}
           placeholder={placeholder}
           value={value}
           style={errState ? errorStyle : { ...normalStyle, ...style }}
@@ -84,7 +165,7 @@ const CustomInputPassword: React.FC<InputProps> = ({
           {errState ? (
             <ErrorIcon />
           ) : passwordCheck ? (
-            <CloseIcon />
+            <EyeOffIcon />
           ) : (
             <EyeIcon />
           )}
@@ -126,4 +207,9 @@ const CustomInputDropdown: React.FC<InputProps> = ({
   );
 };
 
-export { CustomInput, CustomInputPassword, CustomInputDropdown };
+export {
+  CustomInput,
+  CustomInputPassword,
+  CustomInputDropdown,
+  CustomInputPhone,
+};

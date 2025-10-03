@@ -3,10 +3,12 @@
 .card {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  min-width: 740px;
   gap: 16px;
   padding-block: 32px;
+  width: 740px;
+  height: 378px;
+  max-width: none;
+  min-width: 700px;
 
   > div {
     display: flex;

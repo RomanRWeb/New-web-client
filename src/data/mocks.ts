@@ -3,34 +3,28 @@ import {
   ClientType,
   ManagerType,
   Tariff,
-  ChartCards,
 } from "@app/data/types";
-import { SuccessInvertIcon } from "@app/common/icons/success-invert";
-import { ErrorInvertIcon } from "@app/common/icons/error-invert";
-import { WarningInvertIcon } from "@app/common/icons/warning-invert";
-import React from "react";
-import ChartCard from "@app/modules/home/components/chart-card";
 
 export const fakeManagers: ManagerType[] = [
   {
     id: "1",
     fullName: "Менеджер 1",
     role: "Менеджер клиентов",
-    phone: "+7(999)999-99-99",
+    phone: "+7 (999) 999-99-99",
     password: "123",
   },
   {
     id: "2",
     fullName: "Менеджер 2",
     role: "Менеджер клиентов",
-    phone: "+7(999)999-99-98",
+    phone: "+7 (999) 999-99-98",
     password: "1234",
   },
   {
     id: "3",
     fullName: "Менеджер 3",
     role: "Менеджер клиентов",
-    phone: "+7(999)999-99-97",
+    phone: "+7 (999) 999-99-97",
     password: "12345",
   },
 ];
@@ -44,7 +38,6 @@ export const clients: ClientType[] = [
     subscribeState: "Триал активен",
     sellState: "-",
     subscribeDate: "Действует до 20.02.2023",
-    balance: "-",
     tariff: "-",
     cloudStorageLimit: "15",
     cloudStorageUsage: "5",
@@ -67,7 +60,7 @@ export const clients: ClientType[] = [
     requestPerDay: "2875",
     type: "individual",
     ownerName: "Иванов Иван Иванович",
-    ownerPhone: "+7(999)999-99-99",
+    ownerPhone: "+7 (999) 999-99-99",
     ownerEmail: "test@gmail.com",
   },
   {
@@ -85,11 +78,11 @@ export const clients: ClientType[] = [
     requestPerDay: "2875",
     type: "legal entity",
     ownerName: "Иванов Иван Иванович",
-    ownerPhone: "+7(999)999-99-99",
+    ownerPhone: "+7 (999) 999-99-99",
     ownerEmail: "test@gmail.com",
     adminName: "Иванов Иван Иванович",
     adminEmail: "test@gmail.com",
-    adminPhone: "+7(999)999-99-99",
+    adminPhone: "+7 (999) 999-99-99",
     inn: "1234567890",
   },
   {

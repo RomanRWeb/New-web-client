@@ -237,10 +237,10 @@ const Analytics: React.FC = () => {
     //for client chart: fetch data => fill object(↓) => merge values and fields placeholder => setState(object)
     const clientData: ClientCardProps = {
       activeClients: 700,
-      nonActiveClients: 50,
-      trialActive: 50,
-      trialEnded: 200,
-      allClients: 5000,
+      nonActiveClients: 100,
+      trialActive: 200,
+      trialEnded: 50,
+      allClients: 50,
       allNonActiveClients: 800,
     };
     const newClientChartData: ChartCards = mergeData({
@@ -276,11 +276,11 @@ const Analytics: React.FC = () => {
   useEffect(() => {
     //for trial chart: fetch data => fill object(↓) => merge values and fields placeholder => setState(object)
     const trialData: TrialCardProps = {
-      subscribed: 700,
-      dontSubscribed: 50,
-      trialDeactivated: 25,
-      trialEnded: 200,
-      trialActive: 25,
+      subscribed: 384,
+      dontSubscribed: 259,
+      trialDeactivated: 129,
+      trialEnded: 109,
+      trialActive: 119,
     };
     const newTrialChartData: ChartCards = mergeData({
       chartData: trialChartData,

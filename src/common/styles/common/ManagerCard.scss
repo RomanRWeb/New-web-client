@@ -4,9 +4,16 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  width: 554px;
   padding: 14px 32px;
+  width: 554px;
   height: 528px;
+  min-width: auto;
+  min-height: auto;
+
+  > .custom-input,
+  .dropdown-bar {
+    flex-direction: column;
+  }
 
   > .dropdown-bar {
     > span {

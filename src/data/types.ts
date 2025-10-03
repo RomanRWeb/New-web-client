@@ -145,6 +145,9 @@ export interface ColumnsHeader {
   name: string;
   colored: boolean;
   colorTable?: ColorString[];
+  isBold?: boolean;
+  nonExistPlaceholder?: string;
+  isNumber?: boolean;
 }
 
 export interface ChangeListItem {

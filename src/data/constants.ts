@@ -14,7 +14,7 @@ export const initialState: uiStateType = {
 export const ClientTableHeaders: ColumnsHeader[] = [
   { name: "id", text: "ID", colored: false },
   { name: "name", text: "НАЗВАНИЕ", colored: false },
-  { name: "usersCount", text: "ПОЛЬЗОВАТЕЛИ", colored: false },
+  { name: "usersCount", text: "ПОЛЬЗОВАТЕЛИ", colored: false, isNumber: true },
   { name: "registerDate", text: "ЗАРЕГЕСТРИРОВАН", colored: false },
   {
     name: "subscribeState",
@@ -42,8 +42,21 @@ export const ClientTableHeaders: ColumnsHeader[] = [
     ],
   },
   { name: "subscribeDate", text: "ДАТА ПОДПИСКИ", colored: false },
-  { name: "balance", text: "БАЛАНС, РУБ", colored: false },
-  { name: "tariff", text: "ТАРИФ, РУБ/МЕС", colored: false },
+  {
+    name: "balance",
+    text: "БАЛАНС, РУБ",
+    colored: false,
+    isBold: true,
+    nonExistPlaceholder: "0",
+    isNumber: true,
+  },
+  {
+    name: "tariff",
+    text: "ТАРИФ, РУБ/МЕС",
+    colored: false,
+    isBold: true,
+    isNumber: true,
+  },
 ];
 
 export const NavListHomeAdmin: NavListType[] = [

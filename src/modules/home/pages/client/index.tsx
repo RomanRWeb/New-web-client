@@ -114,6 +114,13 @@ const Client: React.FC<ClientProps> = ({ clientId }) => {
     } as ClientType);
   }, [currentClient, newSubscribeDate]);
 
+  const separateNumber = useCallback((str: string | undefined) => {
+    if (str && /^\d+$/.test(str)) {
+      return parseFloat(str).toLocaleString();
+    } else if (!str) return "-";
+    else return str;
+  }, []);
+
   const handleSaveChanges = useCallback(() => {}, []);
 
   const handleSaveClient = useCallback(() => {}, []);
@@ -132,19 +139,19 @@ const Client: React.FC<ClientProps> = ({ clientId }) => {
           <h1>{"Общая информация"}</h1>
           <div className={"info-field"}>
             <span>{"Баланс:"}</span>
-            <b>{` ${currentClient?.balance} руб.`}</b>
+            <b>{` ${separateNumber(currentClient?.balance)} руб.`}</b>
           </div>
           <div className={"info-field"}>
             <span>{"Тариф:"}</span>
-            <b>{` ${currentClient?.tariff} руб/мес`}</b>
+            <b>{` ${separateNumber(currentClient?.tariff)} руб/мес`}</b>
           </div>
           <div className={"info-field"}>
             <span>{"Подключено пользователей:"}</span>
-            <b>{` ${currentClient?.usersCount} руб.`}</b>
+            <b>{` ${separateNumber(currentClient?.usersCount)} руб.`}</b>
           </div>
           <div className={"info-field"}>
             <span>{"Дата регистрации:"}</span>
-            <b>{` ${currentClient?.registerDate} руб.`}</b>
+            <b>{currentClient?.registerDate?.substring(0, 10) || "-"}</b>
           </div>
         </Card>
         <Card>
@@ -161,7 +168,7 @@ const Client: React.FC<ClientProps> = ({ clientId }) => {
           </div>
           <div className={"info-field"}>
             <span>{"Нагрузка:"}</span>
-            <b>{` ${currentClient?.requestPerDay || "-"} запросов / сутки`}</b>
+            <b>{` ${separateNumber(currentClient?.requestPerDay)} запросов / сутки`}</b>
           </div>
         </Card>
         <Card>
@@ -244,7 +251,7 @@ const Client: React.FC<ClientProps> = ({ clientId }) => {
           ) : null}
         </Card>
         <Card>
-          <h1>{"Список изменений"}</h1>
+          <h1>{"История изменений"}</h1>
           <CustomTable columns={changeListColumns} data={changeListData} />
         </Card>
       </div>

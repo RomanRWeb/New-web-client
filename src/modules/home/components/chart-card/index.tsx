@@ -146,10 +146,10 @@ const ChartCard: React.FC<createCardProps> = ({
         {data.icon}
         <span>{data.fieldName}</span>
         <span style={{ color: data.color }} className={"colored-text"}>
-          {data.value}
+          {data.value.toLocaleString()}
         </span>
         {data.additionText ? (
-          <span>{`(${data.additionValue} ${data.additionText})`}</span>
+          <span>{`(${data.additionValue?.toLocaleString()} ${data.additionText})`}</span>
         ) : null}
       </div>
     );
@@ -170,12 +170,12 @@ const ChartCard: React.FC<createCardProps> = ({
           <section>
             {isMonthly && monthlyData ? (
               <>
-                <h2>{`${cardSummaryFieldName}: ${sumValueMonthly}`}</h2>
+                <h2>{`${cardSummaryFieldName}: ${sumValueMonthly?.toLocaleString()}`}</h2>
                 {monthlyData.fields.map((field) => createField(field))}
               </>
             ) : (
               <>
-                <h2>{`${cardSummaryFieldName}: ${sumValue}`}</h2>
+                <h2>{`${cardSummaryFieldName}: ${sumValue.toLocaleString()}`}</h2>
                 {cardContent.fields.map((field) => createField(field))}
               </>
             )}

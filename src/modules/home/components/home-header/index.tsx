@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@app/store/store";
 import "../../../../common/styles/common/HomeHeader.scss";
@@ -16,11 +16,15 @@ const HomeHeader: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const pathArray = usePathname().split("/");
-  const sectionPath = `/${pathArray[2]}`;
-  const subSectionPath = `/${pathArray[3]}`;
+  const sectionPath = useMemo(() => `${pathArray[2]}`, [pathArray]);
+  const subSectionPath = useMemo(() => `${pathArray[3]}`, [pathArray]);
+
+  useEffect(() => {
+    console.log("subSectionPath", JSON.stringify(subSectionPath, null, 2));
+  }, [subSectionPath]);
 
   const Header = useMemo(
-    () => NavListHomeAdmin.find((el) => el.path === sectionPath)?.name,
+    () => NavListHomeAdmin.find((el) => el.path === `/${sectionPath}`)?.name,
     [sectionPath],
   );
 
@@ -34,22 +38,22 @@ const HomeHeader: React.FC = () => {
 
   const handleReturn = useCallback(() => {
     switch (sectionPath) {
-      case "/clients": {
+      case "clients": {
         dispatch(setCurrentClient(null));
         console.log("curr user empty");
         break;
       }
-      case "/managers": {
+      case "managers": {
         dispatch(setCurrentManager(null));
         console.log("curr manager empty");
         break;
       }
     }
-    redirect(`/home${sectionPath}`);
+    redirect(`/home/${sectionPath}`);
   }, [dispatch, sectionPath]);
 
   const idHeaderText = useMemo(() => {
-    if (sectionPath === "/clients" && uiState.currentClient !== null) {
+    if (sectionPath === "clients" && uiState.currentClient !== null) {
       return (
         <>
           <span className={"ReturnButton"} onClick={handleReturn}>
@@ -59,14 +63,14 @@ const HomeHeader: React.FC = () => {
           <span>{`(ID: ${uiState.currentClient.id})`}</span>
         </>
       );
-    } else if (sectionPath === "/managers" && subSectionPath !== "/undefined") {
+    } else if (sectionPath === "managers" && subSectionPath) {
       return (
         <>
           <span className={"ReturnButton"} onClick={handleReturn}>
             <ChevronLeftIcon />
           </span>
           <h1>
-            {subSectionPath === "/edit-manager"
+            {subSectionPath === "edit-manager"
               ? "Редактирование менеджера"
               : "Создание менеджера"}
           </h1>
@@ -90,7 +94,7 @@ const HomeHeader: React.FC = () => {
   return (
     <div className={"HomeHeader"}>
       <div className={"HeaderText"}>
-        {sectionPath === "/clients" || sectionPath === "/managers" ? (
+        {sectionPath === "clients" || sectionPath === "managers" ? (
           idHeader
         ) : (
           <h1>{Header}</h1>
