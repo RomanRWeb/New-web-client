@@ -21,5 +21,11 @@
     height: 40px;
     color: $textWhite;
     gap: 8px;
+    overflow: hidden;
+    text-wrap: nowrap;
+
+    > svg {
+      min-width: 22px;
+    }
   }
 }

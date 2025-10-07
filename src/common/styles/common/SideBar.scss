@@ -1,23 +1,35 @@
 @use "../variables" as *;
 
+$transition-duration: 0.6s;
+$easing: ease-in-out;
+
 .sidebar {
-  min-width: 300px;
+  width: 320px;
   min-height: 100vh;
   height: auto;
   display: flex;
   flex-direction: column;
   background: linear-gradient(182.83deg, #161f32 66.28%, #364053 99.39%);
+  transition: width $transition-duration $easing;
 
   .logo-container {
     padding: 16px 24px 32px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 320px;
+    height: 110px;
+    transition:
+      width $transition-duration $easing,
+      padding $transition-duration $easing;
+    position: relative;
 
     > .logo {
       display: flex;
       flex-direction: row;
       gap: 12px;
+      align-self: center;
+      transition: gap $transition-duration $easing;
 
       > div {
         display: flex;
@@ -25,13 +37,27 @@
         justify-content: center;
         cursor: default;
 
+        &:nth-child(1) {
+          width: 60px;
+          height: 60px;
+          min-width: 30px;
+          transition:
+            width $transition-duration $easing,
+            height $transition-duration $easing;
+        }
+
+        &:nth-child(2) {
+          width: 225px;
+          transition: width $transition-duration $easing;
+        }
+
         > b {
           font-weight: 700;
           font-size: 19px;
           line-height: 21px;
-          letter-spacing: 1.5px;
-          text-align: center;
           color: $textWhite;
+          overflow: hidden;
+          text-wrap: nowrap;
         }
 
         > span {
@@ -39,11 +65,19 @@
           line-height: 9px;
           font-size: 9px;
           color: $textWhite;
+          overflow: hidden;
+          text-wrap: nowrap;
         }
       }
     }
+
     > .note-wrapper {
-      align-content: end;
+      position: absolute;
+      bottom: 28px;
+      right: 24px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
     }
   }
 
@@ -68,18 +102,62 @@
       transition: ease 0.2s transform;
     }
 
-    label:has(input[type="radio"]:checked) ~ .selection {
+    > label:has(input[type="radio"]:checked) ~ .selection {
       display: block;
       animation: 0.2s ease fade-in;
     }
-    label:nth-child(2):has(input[type="radio"]:checked) ~ .selection {
+
+    > label:nth-child(2):has(input[type="radio"]:checked) ~ .selection {
       transform: translateY(calc(100% + 4px));
     }
-    label:nth-child(3):has(input[type="radio"]:checked) ~ .selection {
+
+    > label:nth-child(3):has(input[type="radio"]:checked) ~ .selection {
       transform: translateY(calc(200% + 8px));
     }
-    label:nth-child(4):has(input[type="radio"]:checked) ~ .selection {
+
+    > label:nth-child(4):has(input[type="radio"]:checked) ~ .selection {
       transform: translateY(calc(300% + 12px));
+    }
+  }
+
+  > label {
+    height: 0;
+    width: 0;
+
+    > .collapse-radio {
+      appearance: none;
+      margin: 0;
+    }
+  }
+
+  &:has(#collapse-on:checked) {
+    width: 66px;
+
+    > .logo-container {
+      width: 66px;
+      padding-left: 18px;
+      padding-right: 12px;
+      padding-bottom: 62px;
+      gap: 5px;
+
+      > .logo {
+        gap: 0;
+
+        > div {
+          &:nth-child(1) {
+            height: 30px;
+            width: 30px;
+          }
+
+          &:nth-child(2) {
+            width: 0;
+          }
+        }
+      }
+
+      > .note-wrapper {
+        right: 20px;
+      }
     }
   }
 }

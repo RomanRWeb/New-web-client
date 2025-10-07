@@ -1,8 +1,100 @@
 @use "../../variables" as *;
 
+@property --angle-client0 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+@for $i from 1 through 4 {
+  @property --angle-client#{$i} {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 0%;
+  }
+}
+
+@property --angle-income0 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+@property --angle-income1 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+
+//@for $i from 0 through 2 {
+//  @property --angle-income#{$i} {
+//    syntax: "<percentage>";
+//    inherits: false;
+//    initial-value: 0%;
+//  }
+//}
+
+@property --angle-trial0 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+@for $i from 1 through 5 {
+  @property --angle-trial#{$i} {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 0%;
+  }
+}
+
+@property --angle-subscribe0 {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+@for $i from 1 through 3 {
+  @property --angle-subscribe#{$i} {
+    syntax: "<percentage>";
+    inherits: false;
+    initial-value: 0%;
+  }
+}
+
 .analytics-card-grid {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 48px;
+}
+
+.test {
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: black;
+  position: relative;
+
+  > .test-el {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(180deg);
+  }
+
+  &:before {
+    z-index: 600;
+    content: "";
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    border-radius: 50%;
+  }
 }

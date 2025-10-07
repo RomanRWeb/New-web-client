@@ -270,7 +270,7 @@ const LegalEntityModal = ({
               title={"ФИО админа"}
               onChange={setAdminName}
               errState={adminNameError}
-              regex={fullNameRegex}
+              regex={anythingRegex}
               setError={setAdminNameError}
             />
             <CustomInputPhone
@@ -301,7 +301,7 @@ const LegalEntityModal = ({
               title={"ФИО админа"}
               onChange={setOwnerName}
               errState={ownerNameError}
-              regex={fullNameRegex}
+              regex={anythingRegex}
               setError={setOwnerNameError}
             />
             <CustomInputPhone
@@ -414,7 +414,7 @@ const LegalEntityModal = ({
                   value={gmName}
                   onChange={setGmName}
                   errState={gmNameError}
-                  regex={fullNameRegex}
+                  regex={anythingRegex}
                   setError={setGmNameError}
                 />
               </section>
@@ -427,7 +427,7 @@ const LegalEntityModal = ({
                   value={accountantName}
                   onChange={setAccountantName}
                   errState={accountantNameError}
-                  regex={fullNameRegex}
+                  regex={anythingRegex}
                   setError={setAccountantNameError}
                 />
                 <CustomInputPhone

@@ -5,7 +5,7 @@ interface LogoProps {
   size?: number;
 }
 
-export const Logo = ({ size = 50 }: LogoProps) => {
+export const Logo = ({ size = 60 }: LogoProps) => {
   return (
     <div>
       <Image

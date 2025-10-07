@@ -44,19 +44,13 @@ const CustomInput: React.FC<InputProps> = ({
   regex,
   setError,
 }: InputProps) => {
-  const changeFunc = useCallback(
-    (value: string) => {
-      if (regex && setError) {
-        if (regex.test(value.toString())) {
-          setError(false);
-        } else setError(true);
-      }
-      if (onChange) {
-        onChange(value);
-      }
-    },
-    [onChange, regex, setError],
-  );
+  useEffect(() => {
+    if (regex && setError) {
+      if (regex.test(value.toString())) {
+        setError(false);
+      } else setError(true);
+    }
+  }, [regex, setError, value]);
 
   const finalStyle = useCallback(() => {
     if (errState && !disabled) {
@@ -69,7 +63,7 @@ const CustomInput: React.FC<InputProps> = ({
       <span>{title}</span>
       <span className={"input-wrapper"}>
         <input
-          onChange={(e) => changeFunc(e.target.value)}
+          onChange={(e) => (onChange ? onChange(e.target.value) : null)}
           placeholder={placeholder}
           value={value}
           style={finalStyle()}
@@ -90,43 +84,40 @@ const CustomInputPhone: React.FC<InputProps> = ({
   disabled = false,
   setError,
 }: InputProps) => {
-  const changeFunc = useCallback(
-    (value: string) => {
-      const inputString = value.replace(/\D/g, "");
-      if (setError) {
-        if (inputString.length === 11) {
-          setError(false);
-        } else {
-          setError(true);
-        }
+  useEffect(() => {
+    const inputString = value.toString().replace(/\D/g, "");
+    if (setError) {
+      if (inputString.length === 11) {
+        setError(false);
+      } else {
+        setError(true);
       }
-      if (onChange) {
-        let phone = "";
-        if (inputString.length > 0) {
-          phone = phone.concat("+7 (", inputString.substring(1, 4));
-        }
-        if (inputString.length >= 5) {
-          phone = phone.concat(") ", inputString.substring(4, 7));
-        }
-        if (inputString.length >= 8) {
-          phone = phone.concat("-", inputString.substring(7, 9));
-        }
-        if (inputString.length >= 10) {
-          phone = phone.concat("-", inputString.substring(9, 11));
-        }
-        console.log("phone", JSON.stringify(phone, null, 2));
-        onChange(phone);
+    }
+    if (onChange) {
+      let phone = "";
+      if (inputString.length > 0) {
+        phone = phone.concat("+7 (", inputString.substring(1, 4));
       }
-    },
-    [onChange, setError],
-  );
+      if (inputString.length >= 5) {
+        phone = phone.concat(") ", inputString.substring(4, 7));
+      }
+      if (inputString.length >= 8) {
+        phone = phone.concat("-", inputString.substring(7, 9));
+      }
+      if (inputString.length >= 10) {
+        phone = phone.concat("-", inputString.substring(9, 11));
+      }
+      console.log("phone", JSON.stringify(phone, null, 2));
+      onChange(phone);
+    }
+  }, [onChange, setError, value]);
 
   return (
     <div className={"custom-input"}>
       <span>{title}</span>
       <span className={"input-wrapper"}>
         <input
-          onChange={(e) => changeFunc(e.target.value)}
+          onChange={(e) => (onChange ? onChange(e.target.value) : null)}
           placeholder={placeholder}
           value={value}
           style={errState ? errorStyle : { ...normalStyle, ...style }}

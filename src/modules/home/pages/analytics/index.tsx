@@ -2,10 +2,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   ChartCards,
-  ClientsKeys,
-  IncomeKeys,
-  SubscribersKeys,
-  TrialsKeys,
+  ClientCardProps,
+  IncomeCardProps,
+  SubscribersCardProps,
+  TrialCardProps,
 } from "@app/data/types";
 import { SuccessInvertIcon } from "@app/common/icons/success-invert";
 import { ErrorInvertIcon } from "@app/common/icons/error-invert";
@@ -14,11 +14,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "@app/store/store";
 import ChartCard from "@app/modules/home/components/chart-card";
 import "@app/common/styles/pages/home/analytics.scss";
-
-type ClientCardProps = Record<ClientsKeys, number>;
-type IncomeCardProps = Record<IncomeKeys, number>;
-type TrialCardProps = Record<TrialsKeys, number>;
-type SubscribersCardProps = Record<SubscribersKeys, number>;
+import {
+  clientDataPlaceholder,
+  incomeDataPlaceholder,
+  subscribeDataPlaceholder,
+  trialDataPlaceholder,
+  clientEmptyPlaceholder,
+  incomeEmptyPlaceholder,
+  subscribeEmptyPlaceholder,
+  trialEmptyPlaceholder,
+} from "@app/data/constants";
 
 const Analytics: React.FC = () => {
   const greenColor: string = "#92D36E";
@@ -156,7 +161,7 @@ const Analytics: React.FC = () => {
     [],
   );
 
-  const subscribersChartCardPlaceholder: ChartCards = useMemo(
+  const subscribersPlaceholder: ChartCards = useMemo(
     () => ({
       fields: [
         {
@@ -189,15 +194,34 @@ const Analytics: React.FC = () => {
 
   const [clientChartData, setClientChartData] =
     useState<ChartCards>(clientPlaceholder);
+  const [clientData, seClientData] = useState<ClientCardProps>(
+    clientEmptyPlaceholder,
+  );
+  const [clientLoading, setClientLoading] = useState<boolean>(true);
+
   const [incomeMonthlyChartData, setIncomeMonthlyChartData] =
     useState<ChartCards>(incomeMonthlyPlaceholder);
   const [incomeAllChartData, setIncomeAllChartData] =
     useState<ChartCards>(incomeAllPlaceholder);
+  const [incomeData, setIncomeData] = useState<IncomeCardProps>(
+    incomeEmptyPlaceholder,
+  );
+  const [incomeLoading, setIncomeLoading] = useState<boolean>(true);
+
   const [trialChartData, setTrialChartData] =
     useState<ChartCards>(trialPlaceholder);
-  const [subscribersChartData, setSubscribersChartData] = useState<ChartCards>(
-    subscribersChartCardPlaceholder,
+  const [trialData, setTrialData] = useState<TrialCardProps>(
+    trialEmptyPlaceholder,
   );
+  const [trialLoading, setTrialLoading] = useState<boolean>(true);
+
+  const [subscribersChartData, setSubscribersChartData] = useState<ChartCards>(
+    subscribersPlaceholder,
+  );
+  const [subscribeData, setSubscribeData] = useState<SubscribersCardProps>(
+    subscribeEmptyPlaceholder,
+  );
+  const [subscribeLoading, setSubscribeLoading] = useState<boolean>(true);
 
   const [month, setMonth] = useState<string>("Январь");
 
@@ -234,73 +258,67 @@ const Analytics: React.FC = () => {
   );
 
   useEffect(() => {
-    //for client chart: fetch data => fill object(↓) => merge values and fields placeholder => setState(object)
-    const clientData: ClientCardProps = {
-      activeClients: 700,
-      nonActiveClients: 100,
-      trialActive: 200,
-      trialEnded: 50,
-      allClients: 50,
-      allNonActiveClients: 800,
-    };
+    //for client chart: fetch data => seClientData(data) => merge values and fields placeholder => setState(object)
     const newClientChartData: ChartCards = mergeData({
-      chartData: clientChartData,
+      chartData: clientPlaceholder,
       chartValues: clientData,
     });
     setClientChartData(newClientChartData);
-  }, []);
+  }, [clientData, clientPlaceholder, mergeData]);
 
   useEffect(() => {
-    //for income chart: fetch data => fill object(↓) and set month => merge values and fields placeholder => setState(object)
-    const incomeData: IncomeCardProps = {
-      baseTariffIncomeAllTime: 700000,
-      baseTariffIncomeMonthly: 300000,
-      extendedTariffIncomeMonthly: 100000,
-      extendedTariffIncomeAllTime: 300000,
-    };
-
+    //for income chart: fetch data => setIncomeData(data) and set month => merge values and fields placeholder => setState(object)
     setMonth("Декабрь");
 
     const newIncomeMonthlyChartData: ChartCards = mergeData({
-      chartData: incomeMonthlyChartData,
+      chartData: incomeMonthlyPlaceholder,
       chartValues: incomeData,
     });
     setIncomeMonthlyChartData(newIncomeMonthlyChartData);
     const newIncomeAllChartData: ChartCards = mergeData({
-      chartData: incomeAllChartData,
+      chartData: incomeAllPlaceholder,
       chartValues: incomeData,
     });
     setIncomeAllChartData(newIncomeAllChartData);
-  }, []);
+  }, [incomeAllPlaceholder, incomeData, incomeMonthlyPlaceholder, mergeData]);
 
   useEffect(() => {
-    //for trial chart: fetch data => fill object(↓) => merge values and fields placeholder => setState(object)
-    const trialData: TrialCardProps = {
-      subscribed: 384,
-      dontSubscribed: 259,
-      trialDeactivated: 129,
-      trialEnded: 109,
-      trialActive: 119,
-    };
+    //for trial chart: fetch data => setTrialData(data) => merge values and fields placeholder => setState(object)
+
     const newTrialChartData: ChartCards = mergeData({
-      chartData: trialChartData,
+      chartData: trialPlaceholder,
       chartValues: trialData,
     });
     setTrialChartData(newTrialChartData);
-  }, []);
+  }, [mergeData, trialData, trialPlaceholder]);
 
   useEffect(() => {
-    //for subscribers chart: fetch data => fill object(↓) => merge values and fields placeholder => setState(object)
-    const subscribersData: SubscribersCardProps = {
-      subscribeActive: 700,
-      subscribeStopped: 200,
-      subscribeRejected: 100,
-    };
+    //for subscribers chart: fetch data => setSubscribeData(data) => merge values and fields placeholder => setState(object)
+
     const newSubscribersChartData: ChartCards = mergeData({
-      chartData: subscribersChartData,
-      chartValues: subscribersData,
+      chartData: subscribersPlaceholder,
+      chartValues: subscribeData,
     });
     setSubscribersChartData(newSubscribersChartData);
+  }, [mergeData, subscribeData, subscribersPlaceholder]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setClientLoading(false);
+      seClientData(clientDataPlaceholder);
+    }, 1000);
+    setTimeout(() => {
+      setIncomeLoading(false);
+      setIncomeData(incomeDataPlaceholder);
+    }, 2000);
+    setTimeout(() => {
+      setTrialLoading(false);
+      setTrialData(trialDataPlaceholder);
+    }, 3000);
+    setTimeout(() => {
+      setSubscribeLoading(false);
+      setSubscribeData(subscribeDataPlaceholder);
+    }, 4000);
   }, []);
 
   return (
@@ -310,6 +328,8 @@ const Analytics: React.FC = () => {
         cardHeaderAddition={"кол-во"}
         cardSummaryFieldName={"Всего клиентов"}
         cardContent={clientChartData}
+        isLoading={clientLoading}
+        propertyName={"--angle-client"}
       />
       {uiState.isAdmin ? (
         <ChartCard
@@ -322,6 +342,8 @@ const Analytics: React.FC = () => {
           setIsMonthlyFunc={setIsIncomeMonthly}
           monthlyHeader={`Доход (${month})`}
           monthlyData={incomeMonthlyChartData}
+          isLoading={incomeLoading}
+          propertyName={"--angle-income"}
         />
       ) : null}
       <ChartCard
@@ -329,12 +351,16 @@ const Analytics: React.FC = () => {
         cardHeaderAddition={"кол-во клиентов"}
         cardSummaryFieldName={"Всего триалов"}
         cardContent={trialChartData}
+        isLoading={trialLoading}
+        propertyName={"--angle-trial"}
       />
       <ChartCard
         cardHeader={"Подписки"}
         cardHeaderAddition={"кол-во клиентов"}
         cardSummaryFieldName={"Всего"}
         cardContent={subscribersChartData}
+        isLoading={subscribeLoading}
+        propertyName={"--angle-subscribe"}
       />
     </div>
   );

@@ -1,32 +1,43 @@
 "use client";
-import React, { useCallback, useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@app/store/store";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import "../../../../common/styles/common/HomeHeader.scss";
 import { redirect, usePathname } from "next/navigation";
 import { UserIcon } from "@app/common/icons/user";
 import DropdownList from "@app/common/components/dropdown-list/DropdownList";
 import { DropdownProps } from "@app/data/types";
 import { ChevronLeftIcon } from "@app/common/icons/chevron-left";
-import { setCurrentClient, setCurrentManager } from "@app/store/slices/uiSlice";
 import { NavListHomeAdmin } from "@app/data/constants";
+import { clients } from "@app/data/mocks";
 
 const HomeHeader: React.FC = () => {
-  const uiState = useSelector((state: RootState) => state.ui);
-  const dispatch: AppDispatch = useDispatch();
-
   const pathArray = usePathname().split("/");
   const sectionPath = useMemo(() => `${pathArray[2]}`, [pathArray]);
   const subSectionPath = useMemo(() => `${pathArray[3]}`, [pathArray]);
+  const [header, setHeader] = useState<string>();
+
+  useEffect(() => {
+    console.log("sectionPath", JSON.stringify(sectionPath, null, 2));
+  }, [sectionPath]);
 
   useEffect(() => {
     console.log("subSectionPath", JSON.stringify(subSectionPath, null, 2));
   }, [subSectionPath]);
 
-  const Header = useMemo(
-    () => NavListHomeAdmin.find((el) => el.path === `/${sectionPath}`)?.name,
-    [sectionPath],
-  );
+  useEffect(() => {
+    if (subSectionPath === "") {
+      setHeader(
+        NavListHomeAdmin.find((el) => el.path === `/${sectionPath}`)?.name,
+      );
+    } else if (sectionPath === "clients" && subSectionPath !== "") {
+      setHeader(clients.find((client) => client.id === subSectionPath)?.name);
+    } else if (sectionPath === "managers") {
+      if (subSectionPath === "edit-manager") {
+        setHeader("Редактирование менеджера");
+      } else if (subSectionPath === "add-manager") {
+        setHeader("Создание менеджера");
+      }
+    }
+  }, [sectionPath, subSectionPath]);
 
   const handleLogout = useCallback(() => {
     redirect("/auth/sign-in");
@@ -37,68 +48,23 @@ const HomeHeader: React.FC = () => {
   ];
 
   const handleReturn = useCallback(() => {
-    switch (sectionPath) {
-      case "clients": {
-        dispatch(setCurrentClient(null));
-        console.log("curr user empty");
-        break;
-      }
-      case "managers": {
-        dispatch(setCurrentManager(null));
-        console.log("curr manager empty");
-        break;
-      }
-    }
     redirect(`/home/${sectionPath}`);
-  }, [dispatch, sectionPath]);
-
-  const idHeaderText = useMemo(() => {
-    if (sectionPath === "clients" && uiState.currentClient !== null) {
-      return (
-        <>
-          <span className={"ReturnButton"} onClick={handleReturn}>
-            <ChevronLeftIcon />
-          </span>
-          <h1>{uiState.currentClient.name}</h1>
-          <span>{`(ID: ${uiState.currentClient.id})`}</span>
-        </>
-      );
-    } else if (sectionPath === "managers" && subSectionPath) {
-      return (
-        <>
-          <span className={"ReturnButton"} onClick={handleReturn}>
-            <ChevronLeftIcon />
-          </span>
-          <h1>
-            {subSectionPath === "edit-manager"
-              ? "Редактирование менеджера"
-              : "Создание менеджера"}
-          </h1>
-        </>
-      );
-    } else {
-      return <h1>{Header}</h1>;
-    }
-  }, [
-    Header,
-    handleReturn,
-    sectionPath,
-    subSectionPath,
-    uiState.currentClient,
-  ]);
-
-  const idHeader: React.ReactNode = useMemo(() => {
-    return <div className={"Wrapper"}>{idHeaderText}</div>;
-  }, [idHeaderText]);
+  }, [sectionPath]);
 
   return (
     <div className={"HomeHeader"}>
       <div className={"HeaderText"}>
-        {sectionPath === "clients" || sectionPath === "managers" ? (
-          idHeader
-        ) : (
-          <h1>{Header}</h1>
-        )}
+        <div className={"Wrapper"}>
+          {subSectionPath !== "" ? (
+            <span className={"ReturnButton"} onClick={handleReturn}>
+              <ChevronLeftIcon />
+            </span>
+          ) : null}
+          <h1>{header}</h1>
+          {sectionPath === "clients" && subSectionPath !== "" ? (
+            <span>{`(ID: ${subSectionPath})`}</span>
+          ) : null}
+        </div>
       </div>
       <div className={"User"}>
         <UserIcon />

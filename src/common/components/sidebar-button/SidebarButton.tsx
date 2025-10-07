@@ -9,6 +9,7 @@ interface SidebarButtonProps {
   redirectPath: string;
   icon: React.ReactNode;
   checked?: boolean;
+  collapsed?: boolean;
 }
 
 const SidebarButton: React.FC<SidebarButtonProps> = ({
@@ -16,6 +17,7 @@ const SidebarButton: React.FC<SidebarButtonProps> = ({
   redirectPath,
   icon,
   checked = false,
+  collapsed,
 }: SidebarButtonProps) => {
   const handleClick = useCallback(() => {
     redirect(`/home${redirectPath}`);
@@ -32,7 +34,7 @@ const SidebarButton: React.FC<SidebarButtonProps> = ({
       />
       <span>
         {icon}
-        {name}
+        {collapsed ? name : name}
       </span>
     </label>
   );

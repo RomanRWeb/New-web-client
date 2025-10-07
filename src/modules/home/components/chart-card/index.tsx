@@ -1,7 +1,13 @@
 "use client";
 import { ChartCards, ChartField } from "@app/data/types";
 import Card from "@app/common/components/сard/Card";
-import React, { useCallback } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import "../../../../common/styles/common/ChartCard.scss";
 
 interface createCardProps {
@@ -14,23 +20,18 @@ interface createCardProps {
   setIsMonthlyFunc?: (b: boolean) => void;
   monthlyData?: ChartCards;
   monthlyHeader?: string;
-}
-
-interface ChartProps {
-  sumValue: number;
-  chartData: ChartCards;
+  propertyName?: string;
+  isLoading?: boolean;
 }
 
 interface legendBarProps {
   value: number;
-  sumValue: number;
   key: string;
   color: string;
 }
 
 interface LegendLabelProps {
   value: number;
-  sumValue: number;
   key: string;
   icon: React.ReactNode;
 }
@@ -45,28 +46,105 @@ const ChartCard: React.FC<createCardProps> = ({
   monthlyData,
   monthlyHeader,
   isSwitchable = false,
+  isLoading = false,
+  propertyName,
 }: createCardProps) => {
-  const sumValue = cardContent.fields.reduce((acc, cur) => acc + cur.value, 0);
-  const sumValueMonthly = monthlyData?.fields.reduce(
-    (acc, cur) => acc + cur.value,
-    0,
-  );
+  const [cardData, setCardData] = useState<ChartCards>();
+  const [sumValue, setSumValue] = useState(0);
+  const [percentArray, setPercentArray] = useState<number[]>([]);
+
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (isMonthly && monthlyData) {
+      setSumValue(monthlyData?.fields.reduce((acc, cur) => acc + cur.value, 0));
+    } else {
+      setSumValue(cardContent.fields.reduce((acc, cur) => acc + cur.value, 0));
+    }
+  }, [cardContent.fields, isMonthly, monthlyData]);
+
+  useEffect(() => {
+    if (isMonthly && monthlyData) {
+      const sortData = monthlyData?.fields.sort((a, b) => b.value - a.value);
+      setCardData({ fields: sortData });
+    } else {
+      const sortData = cardContent.fields.sort((a, b) => b.value - a.value);
+      setCardData({ fields: sortData });
+    }
+  }, [cardContent, isMonthly, monthlyData]);
+
+  useEffect(() => {
+    percentArray.forEach((el, i) => {
+      if (elementRef.current) {
+        elementRef.current.style.setProperty(`${propertyName}${i}`, `${el}%`);
+      }
+    });
+  }, [cardData?.fields, percentArray, propertyName]);
+
+  useEffect(() => {
+    if (cardData && sumValue && !isLoading) {
+      const percents: { i: number; array: number[] } = cardData.fields.reduce(
+        (acc, el) => {
+          if (acc.i != 0) {
+            const value = acc.array[acc.i - 1] + (el.value / sumValue) * 100;
+            acc.array.push(value);
+          } else {
+            acc.array.push((el.value / sumValue) * 100);
+          }
+          acc.i = acc.i + 1;
+          return acc;
+        },
+        { i: 0, array: [] } as { i: number; array: number[] },
+      );
+      console.log(percents);
+      setPercentArray(percents.array);
+    }
+  }, [cardData, isLoading, sumValue]);
+
+  const conicGradientString: string | undefined = useMemo(() => {
+    const conicGradientArray: string[] | undefined = cardData?.fields.map(
+      (el, i) => {
+        if (i != 0) {
+          return `${el.color} calc(var(${propertyName}${i - 1}) + 0.2%), ${el.color} var(${propertyName}${i})`;
+        } else return `${el.color} 0%, ${el.color} var(${propertyName}${i})`;
+      },
+    );
+    return `conic-gradient(${conicGradientArray?.toString()})`;
+  }, [cardData?.fields, propertyName]);
+
+  const graphStyle: React.CSSProperties = useMemo(() => {
+    const transitionString: string[] = [];
+    cardData?.fields.reduce((acc, el) => {
+      transitionString.push(`${propertyName}${acc} 0.8s ease`);
+      acc = acc + 1;
+      return acc;
+    }, 0 as number);
+
+    return {
+      backgroundImage: conicGradientString,
+      transition: transitionString.toString(),
+    };
+  }, [cardData?.fields, conicGradientString, propertyName]);
 
   const createLegendBar = useCallback(
-    ({ value, sumValue, key, color }: legendBarProps) => {
+    ({ value, key, color }: legendBarProps) => {
       const flexCalc = value && sumValue ? (value / sumValue) * 100 : 0;
       return (
         <span
-          style={{ minWidth: "25px", flex: flexCalc, backgroundColor: color }}
+          style={{
+            minWidth: "25px",
+            flex: flexCalc,
+            backgroundColor: color,
+          }}
           key={key}
         />
       );
     },
-    [],
+    [sumValue],
   );
 
   const createLegendLabels = useCallback(
-    ({ value, sumValue, key, icon }: LegendLabelProps) => {
+    ({ value, key, icon }: LegendLabelProps) => {
       const percent = value && sumValue ? (value / sumValue) * 100 : 0;
       let percentShow: string = percent.toFixed(1);
       if (percentShow[percentShow.length - 1] === "0") {
@@ -79,81 +157,39 @@ const ChartCard: React.FC<createCardProps> = ({
         </span>
       );
     },
-    [],
+    [sumValue],
   );
 
-  const createChart = useCallback(
-    ({ sumValue, chartData }: ChartProps) => {
-      const sortChartData = chartData.fields.sort((a, b) => b.value - a.value);
-
-      const conicGradientArray: { counter: number; colorArray: string[] } =
-        sortChartData.reduce(
-          (acc, el) => {
-            acc.colorArray.push(
-              `${el.color} ${(acc.counter / sumValue) * 100 + 0.2}%`,
-            );
-            acc.colorArray.push(
-              `${el.color} ${((acc.counter + el.value) / sumValue) * 100}%`,
-            );
-            acc.counter = acc.counter + el.value;
-            return acc;
-          },
-          { counter: 0, colorArray: [] } as {
-            counter: number;
-            colorArray: string[];
-          },
-        );
-
-      const conicGradientString = `conic-gradient(${conicGradientArray.colorArray.toString()})`;
-
+  const createField = useCallback(
+    (data: ChartField) => {
       return (
-        <>
-          <div
-            className={"chart"}
-            style={{ backgroundImage: conicGradientString }}
-          />
-          <div className={"chart-legend"}>
-            <div className={"chart-legend-labels"}>
-              {sortChartData.map((el: ChartField) =>
-                createLegendLabels({
-                  sumValue: sumValue,
-                  value: el.value,
-                  key: el.fieldName,
-                  icon: el.icon,
-                }),
-              )}
-            </div>
-            <div className={"chart-legend-bar"}>
-              {sortChartData.map((el: ChartField) =>
-                createLegendBar({
-                  sumValue: sumValue,
-                  value: el.value,
-                  key: el.fieldName,
-                  color: el.color,
-                }),
-              )}
-            </div>
-          </div>
-        </>
+        <div className={"field"} key={`${data.fieldName}(${data.paramName})`}>
+          {data.icon}
+          <span>{data.fieldName}</span>
+          {isLoading ? (
+            <span className={"skeleton"} />
+          ) : (
+            <span style={{ color: data.color }} className={"colored-text"}>
+              {data.value.toLocaleString()}
+            </span>
+          )}
+
+          {data.additionText && data.additionValue ? (
+            isLoading ? (
+              <>
+                {"("}
+                <span className={"skeleton"} />
+                <span>{`${data.additionText})`}</span>
+              </>
+            ) : (
+              <span>{`(${data.additionValue?.toLocaleString()} ${data.additionText})`}</span>
+            )
+          ) : null}
+        </div>
       );
     },
-    [createLegendBar, createLegendLabels],
+    [isLoading],
   );
-
-  const createField = useCallback((data: ChartField) => {
-    return (
-      <div className={"field"} key={`${data.fieldName}(${data.paramName})`}>
-        {data.icon}
-        <span>{data.fieldName}</span>
-        <span style={{ color: data.color }} className={"colored-text"}>
-          {data.value.toLocaleString()}
-        </span>
-        {data.additionText ? (
-          <span>{`(${data.additionValue?.toLocaleString()} ${data.additionText})`}</span>
-        ) : null}
-      </div>
-    );
-  }, []);
 
   return (
     <Card>
@@ -168,23 +204,43 @@ const ChartCard: React.FC<createCardProps> = ({
             <span>{cardHeaderAddition}</span>
           </header>
           <section>
-            {isMonthly && monthlyData ? (
-              <>
-                <h2>{`${cardSummaryFieldName}: ${sumValueMonthly?.toLocaleString()}`}</h2>
-                {monthlyData.fields.map((field) => createField(field))}
-              </>
-            ) : (
-              <>
-                <h2>{`${cardSummaryFieldName}: ${sumValue.toLocaleString()}`}</h2>
-                {cardContent.fields.map((field) => createField(field))}
-              </>
-            )}
+            <div>
+              <h2>{`${cardSummaryFieldName}:`}</h2>
+              {isLoading ? (
+                <span className={"skeleton"}></span>
+              ) : (
+                <h2>{`${sumValue?.toLocaleString()}`}</h2>
+              )}
+            </div>
+            {cardData?.fields.map((field) => createField(field))}
           </section>
         </div>
         <div className={"chart-part"}>
-          {isMonthly && monthlyData && sumValueMonthly
-            ? createChart({ chartData: monthlyData, sumValue: sumValueMonthly })
-            : createChart({ chartData: cardContent, sumValue: sumValue })}
+          <div className={"chart"} ref={elementRef} style={graphStyle} />
+          <div className={"chart-legend"}>
+            <div className={"chart-legend-labels"}>
+              {cardData?.fields.map((el: ChartField) =>
+                createLegendLabels({
+                  value: el.value,
+                  key: el.fieldName,
+                  icon: el.icon,
+                }),
+              )}
+            </div>
+            {!isLoading ? (
+              <div className={"chart-legend-bar"}>
+                {cardData?.fields.map((el: ChartField) =>
+                  createLegendBar({
+                    value: el.value,
+                    key: el.fieldName,
+                    color: el.color,
+                  }),
+                )}
+              </div>
+            ) : (
+              <div className={"skeleton"} />
+            )}
+          </div>
         </div>
       </div>
       {isSwitchable && setIsMonthlyFunc ? (

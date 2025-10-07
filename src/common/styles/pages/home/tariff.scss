@@ -6,95 +6,99 @@
   gap: 24px;
 }
 
-.card {
-  max-width: 560px;
-  padding-block: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-
-  > h1 {
-    font-size: 20px;
-  }
-
-  .tariff {
+.tariff-main-content {
+  .card {
+    max-width: 560px;
+    padding-block: 18px;
     display: flex;
     flex-direction: column;
     gap: 24px;
+    height: max-content;
+    min-width: max-content;
 
-    > .tariff-value {
+    > h1 {
+      font-size: 20px;
+    }
+
+    .tariff {
       display: flex;
       flex-direction: column;
-      list-style: none;
-      height: max-content;
+      gap: 24px;
 
-      .custom-input {
-        row-gap: 0;
-        width: 110px;
+      > .tariff-value {
+        display: flex;
+        flex-direction: column;
+        list-style: none;
+        height: max-content;
 
-        > .input-wrapper {
-          > input {
-            font-size: 16px;
-          }
-        }
-      }
+        .custom-input {
+          row-gap: 0;
+          width: 110px;
 
-      &:nth-child(2) {
-        gap: 12px;
-
-        > li {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 12px;
-
-          > .custom-input {
-            width: 80px;
-            > .input-wrapper {
-              > input {
-                color: $textSecondaryColor;
-              }
+          > .input-wrapper {
+            > input {
+              font-size: 16px;
             }
           }
+        }
 
-          > span {
-            color: $textSecondaryColor;
+        &:nth-child(2) {
+          gap: 12px;
+
+          > li {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 12px;
+
+            > .custom-input {
+              width: 80px;
+              > .input-wrapper {
+                > input {
+                  color: $textSecondaryColor;
+                }
+              }
+            }
+
+            > span {
+              color: $textSecondaryColor;
+            }
           }
         }
-      }
 
-      &:nth-child(1),
-      &:nth-child(3),
-      &:nth-child(4) {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        column-gap: 2px;
-      }
-
-      &:nth-child(3),
-      &:nth-child(4) {
-        > .custom-input {
-          width: 110px;
+        &:nth-child(1),
+        &:nth-child(3),
+        &:nth-child(4) {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          column-gap: 2px;
         }
 
-        > div {
-          width: 100%;
+        &:nth-child(3),
+        &:nth-child(4) {
+          > .custom-input {
+            width: 110px;
+          }
+
+          > div {
+            width: 100%;
+          }
         }
-      }
 
-      > h1 {
-        display: inline;
-        font-size: 22px;
-        line-height: 26px;
-      }
+        > h1 {
+          display: inline;
+          font-size: 22px;
+          line-height: 26px;
+        }
 
-      > span {
-        line-height: 20px;
-        font-weight: 400;
-        font-size: 16px;
-        color: $textSecondaryColor;
-        align-content: flex-end;
+        > span {
+          line-height: 20px;
+          font-weight: 400;
+          font-size: 16px;
+          color: $textSecondaryColor;
+          align-content: flex-end;
+        }
       }
     }
   }

@@ -1,13 +1,15 @@
 import {
+  ClientCardProps,
   ColumnsHeader,
   DropdownProps,
+  IncomeCardProps,
   NavListType,
+  SubscribersCardProps,
+  TrialCardProps,
   uiStateType,
 } from "@app/data/types";
 
 export const initialState: uiStateType = {
-  currentClient: null,
-  currentManager: null,
   isAdmin: true, //fixme
 };
 
@@ -129,3 +131,63 @@ export const managerRoles: string[] = [
   "Менеджер клиентов",
   "Менеджер клиентов_2",
 ];
+
+export const clientEmptyPlaceholder: ClientCardProps = {
+  activeClients: 0,
+  nonActiveClients: 0,
+  trialActive: 0,
+  trialEnded: 0,
+  allClients: 0,
+  allNonActiveClients: 0,
+};
+
+export const incomeEmptyPlaceholder: IncomeCardProps = {
+  baseTariffIncomeAllTime: 0,
+  baseTariffIncomeMonthly: 0,
+  extendedTariffIncomeMonthly: 0,
+  extendedTariffIncomeAllTime: 0,
+};
+
+export const trialEmptyPlaceholder: TrialCardProps = {
+  subscribed: 0,
+  dontSubscribed: 0,
+  trialDeactivated: 0,
+  trialEnded: 0,
+  trialActive: 0,
+};
+
+export const subscribeEmptyPlaceholder: SubscribersCardProps = {
+  subscribeActive: 0,
+  subscribeStopped: 0,
+  subscribeRejected: 0,
+};
+
+export const clientDataPlaceholder: ClientCardProps = {
+  activeClients: 700,
+  nonActiveClients: 200,
+  trialActive: 300,
+  trialEnded: 100,
+  allClients: 5000,
+  allNonActiveClients: 1000,
+};
+
+export const incomeDataPlaceholder: IncomeCardProps = {
+  baseTariffIncomeAllTime: 700000,
+  baseTariffIncomeMonthly: 300000,
+  extendedTariffIncomeMonthly: 100000,
+  extendedTariffIncomeAllTime: 300000,
+};
+
+export const trialDataPlaceholder: TrialCardProps = {
+  subscribed: 4849,
+  dontSubscribed: 1599,
+  trialDeactivated: 1299,
+  trialEnded: 1054,
+  trialActive: 1199,
+};
+
+export const subscribeDataPlaceholder: SubscribersCardProps = {
+  subscribeActive: 700,
+  subscribeStopped: 200,
+  subscribeRejected: 100,
+};

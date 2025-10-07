@@ -1,6 +1,6 @@
 "use client";
 import "../../../../common/styles/common/SideBar.scss";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Logo } from "@app/common/components/images/Logo";
 import info from "../../../../../package.json";
 import { NoteIcon } from "@app/common/icons/note";
@@ -17,6 +17,11 @@ const Sidebar: React.FC = () => {
   const version = info.version;
 
   const uiState = useSelector((state: RootState) => state.ui);
+  const [isFullSize, setIsFullSize] = useState(true);
+
+  useEffect(() => {
+    console.log("isFullSize", JSON.stringify(isFullSize, null, 2));
+  }, []);
 
   const currentPath = `/${usePathname().split("/")[2]}`;
 
@@ -33,6 +38,7 @@ const Sidebar: React.FC = () => {
             <AnalyticsIcon />
           ) : null
         }
+        collapsed={!isFullSize}
         checked={currentPath === path}
       />
     );
@@ -42,14 +48,19 @@ const Sidebar: React.FC = () => {
     <div className="sidebar">
       <section className={"logo-container"}>
         <div className={"logo"}>
-          <Logo size={60} />
+          <Logo />
           <div>
             <b>{"VGL Патруль"}</b>
             <span>{"Версия " + version}</span>
           </div>
         </div>
         <div className={"note-wrapper"}>
-          <NoteIcon />
+          <div
+            className={"collapse-switcher"}
+            onClick={() => setIsFullSize(!isFullSize)}
+          >
+            <NoteIcon color={isFullSize ? "#00ABEB" : "#A7B0C0"} />
+          </div>
         </div>
       </section>
       <section className={"navbar"}>
@@ -58,7 +69,28 @@ const Sidebar: React.FC = () => {
           : NavListHomeManager.map((el) => createButtons(el))}
         <div className="selection" />
       </section>
-      {/*<button onClick={()=>console.log(currentPath)}>path</button>*/}
+      <label>
+        <input
+          type={"radio"}
+          checked={isFullSize}
+          className={"collapse-radio"}
+          key={"collapse"}
+          readOnly={true}
+          name={"collapse"}
+          id={"collapse-off"}
+        />
+      </label>
+      <label>
+        <input
+          type={"radio"}
+          checked={!isFullSize}
+          className={"collapse-radio"}
+          key={"non-collapse"}
+          readOnly={true}
+          name={"collapse"}
+          id={"collapse-on"}
+        />
+      </label>
     </div>
   );
 };

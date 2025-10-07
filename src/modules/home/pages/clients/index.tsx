@@ -12,9 +12,6 @@ import {
 import "@app/common/styles/pages/home/clients.scss";
 import CustomTable from "@app/common/components/custom-table/CustomTable";
 import { redirect } from "next/navigation";
-import { AppDispatch } from "@app/store/store";
-import { useDispatch } from "react-redux";
-import { setCurrentClient } from "@app/store/slices/uiSlice";
 import { clients } from "@app/data/mocks";
 import {
   ClientTableHeaders,
@@ -24,8 +21,6 @@ import {
 
 const ClientsMain: React.FC = () => {
   const columnsData: ColumnsHeader[] = useMemo(() => ClientTableHeaders, []);
-
-  const dispatch: AppDispatch = useDispatch();
 
   const [searchValue, setSearchValue] = useState<string>("");
   const [subscribeFilter, setSubscribeFilter] = useState<SubscribeItem | "">(
@@ -45,12 +40,9 @@ const ClientsMain: React.FC = () => {
 
   useEffect(() => {
     if (selectedClient !== null) {
-      dispatch(
-        setCurrentClient(clients.find((el) => el.id === selectedClient?.id)),
-      );
       redirect(`/home/clients/${selectedClient.id}`);
     }
-  }, [dispatch, selectedClient]);
+  }, [selectedClient]);
 
   useEffect(() => {
     let newClientsData = clients.map((el) => {
@@ -91,13 +83,13 @@ const ClientsMain: React.FC = () => {
         />
         <DropdownBar
           title={"ПОДПИСКА"}
-          onSelect={setSubscribeFilter.toString}
+          onSelect={setSubscribeFilter}
           items={subscribeItems}
           selectedValue={subscribeFilter}
         />
         <DropdownBar
           title={"СТАТУС ПРОДАЖИ"}
-          onSelect={setSellStateFilter.toString}
+          onSelect={setSellStateFilter}
           items={sellStateItems}
           selectedValue={sellStateFilter}
         />

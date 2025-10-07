@@ -114,120 +114,123 @@ const TariffMain = () => {
           type={"Blank"}
         />
       </div>
-      {editMode ? (
-        <Card>
-          <h1>{"Итоговое описание тарифа"}</h1>
-          <h1>{"Базовая стоимость"}</h1>
-          <section className={"tariff"}>
-            <div className={"tariff-value"}>
-              <CustomInput
-                value={basicCost}
-                onChange={setBasicCost}
-                errState={basicCostError}
-                key={"basicCostInput"}
-                regex={numberRegex}
-                setError={setBasicCostError}
-              />
-              <span>{"/месяц"}</span>
-            </div>
-            <div className={"tariff-value"}>
-              <li>
-                <CheckIcon />
-                <span>{"1 администратор"}</span>
-              </li>
-              <li>
-                <CheckIcon />
+      <div className={"tariff-main-content"}>
+        {editMode ? (
+          <Card>
+            <h1>{"Итоговое описание тарифа"}</h1>
+            <h1>{"Базовая стоимость"}</h1>
+            <section className={"tariff"}>
+              <div className={"tariff-value"}>
                 <CustomInput
-                  value={managersCount}
-                  onChange={setManagersCount}
-                  errState={managersCountError}
-                  key={"managerCountInput"}
+                  value={basicCost}
+                  onChange={setBasicCost}
+                  errState={basicCostError}
+                  key={"basicCostInput"}
                   regex={numberRegex}
-                  setError={setManagersCountError}
+                  setError={setBasicCostError}
                 />
-                <span>{"сотрудник"}</span>
-              </li>
-              <li>
-                <CheckIcon />
+                <span>{"/месяц"}</span>
+              </div>
+              <div className={"tariff-value"}>
+                <li>
+                  <CheckIcon />
+                  <span>{"1 администратор"}</span>
+                </li>
+                <li>
+                  <CheckIcon />
+                  <CustomInput
+                    value={managersCount}
+                    onChange={setManagersCount}
+                    errState={managersCountError}
+                    key={"managerCountInput"}
+                    regex={numberRegex}
+                    setError={setManagersCountError}
+                  />
+                  <span>{"сотрудник"}</span>
+                </li>
+                <li>
+                  <CheckIcon />
+                  <CustomInput
+                    value={cloudVolume}
+                    onChange={setCloudVolume}
+                    errState={cloudVolumeError}
+                    key={"cloudVolumeInput"}
+                    regex={numberRegex}
+                    setError={setCloudVolumeError}
+                  />
+                  <span>{"ГБ облачного хранилища"}</span>
+                </li>
+              </div>
+              <div className={"tariff-value"}>
                 <CustomInput
-                  value={cloudVolume}
-                  onChange={setCloudVolume}
-                  errState={cloudVolumeError}
-                  key={"cloudVolumeInput"}
+                  value={addCostManager}
+                  onChange={setAddingCostPerManager}
+                  errState={addCostManagerError}
+                  key={"addCostManagerInput"}
                   regex={numberRegex}
-                  setError={setCloudVolumeError}
+                  setError={setAddingCostPerManagerError}
                 />
-                <span>{"ГБ облачного хранилища"}</span>
-              </li>
-            </div>
-            <div className={"tariff-value"}>
-              <CustomInput
-                value={addCostManager}
-                onChange={setAddingCostPerManager}
-                errState={addCostManagerError}
-                key={"addCostManagerInput"}
-                regex={numberRegex}
-                setError={setAddingCostPerManagerError}
-              />
-              <span>{"/месяц"}</span>
-              <div>
-                <span>{"за каждого дополнительного сотрудника"}</span>
+                <span>{"/месяц"}</span>
+                <div>
+                  <span>{"за каждого дополнительного сотрудника"}</span>
+                </div>
               </div>
-            </div>
-            <div className={"tariff-value"}>
-              <CustomInput
-                value={addCostStorage}
-                onChange={setAddingCostPerStorage}
-                errState={addCostStorageError}
-                key={"addCostStorageInput"}
-                regex={numberRegex}
-                setError={setAddingCostPerStorageError}
-              />
-              <span>{"/месяц"}</span>
-              <div>
-                <span>{"за каждые дополнительные 5ГБ хранилища"}</span>
+              <div className={"tariff-value"}>
+                <CustomInput
+                  value={addCostStorage}
+                  onChange={setAddingCostPerStorage}
+                  errState={addCostStorageError}
+                  key={"addCostStorageInput"}
+                  regex={numberRegex}
+                  setError={setAddingCostPerStorageError}
+                />
+                <span>{"/месяц"}</span>
+                <div>
+                  <span>{"за каждые дополнительные 5ГБ хранилища"}</span>
+                </div>
               </div>
-            </div>
-          </section>
-        </Card>
-      ) : (
-        <Card>
-          <h1>{"Итоговое описание тарифа"}</h1>
-          <h1>{"Базовая стоимость"}</h1>
-          <section className={"tariff"}>
-            <div className={"tariff-value"}>
-              <h1>{`${parseFloat(tariff.basicCost).toLocaleString()}₽`}</h1>
-              <span>{"/месяц"}</span>
-            </div>
-            <div className={"tariff-value"}>
-              <li>
-                <CheckIcon /> <span>{"1 администратор"}</span>
-              </li>
-              <li>
-                <CheckIcon /> <span>{`${tariff.managersCount} сотрудник`}</span>
-              </li>
-              <li>
-                <CheckIcon />{" "}
-                <span>{`${tariff.cloudStorageVolume}ГБ облачного хранилища`}</span>
-              </li>
-            </div>
-            <div className={"tariff-value"}>
-              <h1>{`${parseFloat(tariff.addingCostPerManager).toLocaleString()}₽`}</h1>
-              <span>{"/месяц"}</span>
-              <div>
-                <span>{"за каждого дополнительного сотрудника"}</span>
+            </section>
+          </Card>
+        ) : (
+          <Card>
+            <h1>{"Итоговое описание тарифа"}</h1>
+            <h1>{"Базовая стоимость"}</h1>
+            <section className={"tariff"}>
+              <div className={"tariff-value"}>
+                <h1>{`${parseFloat(tariff.basicCost).toLocaleString()}₽`}</h1>
+                <span>{"/месяц"}</span>
               </div>
-            </div>
-            <div className={"tariff-value"}>
-              <h1>{`${parseFloat(tariff.addingCostPerStorage).toLocaleString()}₽`}</h1>
-              <span>{"/месяц"}</span>
-              <div>
-                <span>{"за каждые дополнительные 5ГБ хранилища"}</span>
+              <div className={"tariff-value"}>
+                <li>
+                  <CheckIcon /> <span>{"1 администратор"}</span>
+                </li>
+                <li>
+                  <CheckIcon />{" "}
+                  <span>{`${tariff.managersCount} сотрудник`}</span>
+                </li>
+                <li>
+                  <CheckIcon />{" "}
+                  <span>{`${tariff.cloudStorageVolume}ГБ облачного хранилища`}</span>
+                </li>
               </div>
-            </div>
-          </section>
-        </Card>
-      )}
+              <div className={"tariff-value"}>
+                <h1>{`${parseFloat(tariff.addingCostPerManager).toLocaleString()}₽`}</h1>
+                <span>{"/месяц"}</span>
+                <div>
+                  <span>{"за каждого дополнительного сотрудника"}</span>
+                </div>
+              </div>
+              <div className={"tariff-value"}>
+                <h1>{`${parseFloat(tariff.addingCostPerStorage).toLocaleString()}₽`}</h1>
+                <span>{"/месяц"}</span>
+                <div>
+                  <span>{"за каждые дополнительные 5ГБ хранилища"}</span>
+                </div>
+              </div>
+            </section>
+          </Card>
+        )}
+      </div>
     </>
   );
 };

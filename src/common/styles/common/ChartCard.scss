@@ -1,210 +1,260 @@
 @use "../variables" as *;
 
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding-block: 32px;
-  width: 740px;
-  height: 378px;
-  max-width: none;
-  min-width: 700px;
-
-  > div {
+.analytics-card-grid {
+  .card {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 16px;
+    padding-block: 32px;
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    width: 740px;
+    max-width: none;
+    min-width: 700px;
 
-    > .info-part {
+    > div {
       display: flex;
-      flex-direction: column;
-      flex: 1;
-      gap: 16px;
+      flex-direction: row;
 
-      > header {
-        > h1 {
-          display: inline;
-          font-size: 22px;
+      > .info-part {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 16px;
+
+        > header {
+          > h1 {
+            display: inline;
+            font-size: 22px;
+          }
+
+          > span {
+            font-weight: 300;
+            font-size: 22px;
+          }
         }
 
-        > span {
-          font-weight: 300;
-          font-size: 22px;
+        > section {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+
+          width: max-content;
+
+          > h2,
+          > div > h2 {
+            font-size: 20px;
+            display: inline;
+          }
+
+          > div {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+
+            > .skeleton {
+              display: inline-block;
+              width: 60px;
+              height: 22px;
+              background: $modalBorder;
+              border-radius: 3px;
+              animation: fade-in 2s infinite ease-in-out;
+            }
+          }
+
+          > .field {
+            display: flex;
+            align-items: center;
+            gap: 1ch;
+            border-bottom: 1px solid rgba(220, 224, 229, 1);
+            padding-bottom: 8px;
+            font-size: 16px;
+            height: 27px;
+
+            .skeleton {
+              width: 40px;
+              height: 14px;
+              background: $modalBorder;
+              border-radius: 3px;
+              animation: fade-in 2s infinite ease-in-out;
+            }
+
+            > span {
+              line-height: 18px;
+              font-size: 16px;
+            }
+
+            > .colored-text {
+              font-weight: 700;
+            }
+          }
         }
       }
 
-      > section {
-        display: flex;
+      > .chart-part {
         flex-direction: column;
+        justify-content: center;
         gap: 16px;
+        display: flex;
+        align-items: center;
 
-        width: max-content;
+        > .chart {
+          border-radius: 50%;
+          min-width: 220px;
+          height: 220px;
+          position: relative;
+          transform: rotate(180deg);
 
-        > h2 {
-          font-size: 20px;
+          &:after {
+            position: absolute;
+            content: "";
+            width: 140px;
+            height: 140px;
+            top: 40px;
+            left: 40px;
+            background: $white;
+            border-radius: 50%;
+          }
         }
 
-        > .field {
+        > .chart-legend {
           display: flex;
-          align-items: center;
-          gap: 1ch;
-          border-bottom: 1px solid rgba(220, 224, 229, 1);
-          padding-bottom: 8px;
-          font-size: 16px;
+          flex-direction: column;
+          gap: 8px;
+          width: 300px;
 
-          > span {
-            line-height: 18px;
-            font-size: 16px;
+          > .chart-legend-labels {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            flex-wrap: nowrap;
+            column-gap: 8px;
+
+            > span {
+              display: flex;
+              gap: 4px;
+              align-items: center;
+              line-height: 20px;
+              font-size: 12px;
+            }
           }
 
-          > .colored-text {
-            font-weight: 700;
+          > .chart-legend-bar {
+            border-radius: 5px;
+            height: 4px;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+          }
+
+          .skeleton {
+            width: 100%;
+            height: 4px;
+            background: $modalBorder;
+            border-radius: 5px;
+            animation: fade-in 2s infinite ease-in-out;
           }
         }
       }
     }
 
-    > .chart-part {
-      flex-direction: column;
-      justify-content: center;
-      gap: 16px;
+    > .switcher-container {
       display: flex;
-      align-items: center;
+      flex-direction: row;
+      gap: 0;
+      flex: 1;
+      width: 100%;
 
-      > .chart {
-        border-radius: 50%;
-        min-width: 220px;
-        height: 220px;
-        position: relative;
-        transform: rotate(180deg);
-
-        &:after {
-          position: absolute;
-          content: "";
-          width: 140px;
-          height: 140px;
-          top: 40px;
-          left: 40px;
-          background: $white;
-          border-radius: 50%;
-        }
-      }
-
-      > .chart-legend {
+      .button-wrapper {
         display: flex;
-        flex-direction: column;
-        gap: 8px;
-        width: 100%;
+        flex-direction: row;
+        background-color: rgba(118, 118, 128, 0.12);
+        padding: 2px;
+        border-radius: 9px;
+        align-self: flex-end;
+        position: relative;
+        overflow: hidden;
 
-        > .chart-legend-labels {
+        > label {
+          padding: 0 16px;
           display: flex;
-          flex-direction: row;
-          justify-content: space-around;
-          flex-wrap: nowrap;
-          column-gap: 8px;
+          flex: 1;
 
           > span {
-            display: flex;
-            gap: 4px;
+            z-index: 200;
+            font-size: 16px;
+            min-width: max-content;
+            display: inline-flex;
             align-items: center;
-            line-height: 20px;
-            font-size: 12px;
+            height: 36px;
+            color: black;
+            text-wrap: nowrap;
+            transition: 0.1s ease-in color;
+
+            &:hover {
+              color: $activeElColor;
+            }
+          }
+
+          > input {
+            margin: 0;
+            appearance: none;
+            height: 10px;
           }
         }
 
-        > .chart-legend-bar {
-          border-radius: 5px;
-          height: 4px;
-          width: 100%;
-          display: flex;
-          flex-direction: row;
-          overflow: hidden;
+        > .selection {
+          background-color: $white;
+          border: 0.5px solid rgba(0, 0, 0, 0.04);
+          box-shadow:
+            0 3px 1px 0 rgba(0, 0, 0, 0.04),
+            0 3px 8px 0 rgba(0, 0, 0, 0.12);
+
+          height: 36px;
+          width: 135px;
+          border-radius: 7px;
+          margin: 2px 2px;
+          position: absolute;
+          pointer-events: none;
+          display: none;
+          top: 0;
+          left: 0;
+          z-index: 100;
+          transition:
+            ease 0.2s transform,
+            width;
+        }
+
+        label:has(input[type="radio"]:checked) {
+          > span {
+            color: $activeElColor;
+          }
+
+          ~ .selection {
+            display: block;
+            animation: 0.2s ease fade-in;
+          }
+        }
+
+        label:nth-child(2):has(input[type="radio"]:checked) ~ .selection {
+          transform: translateX(134px);
+          width: 176px;
         }
       }
     }
   }
+}
 
-  > .switcher-container {
-    display: flex;
-    flex-direction: row;
-    gap: 0;
-    flex: 1;
-    width: 100%;
-
-    .button-wrapper {
-      display: flex;
-      flex-direction: row;
-      background-color: rgba(118, 118, 128, 0.12);
-      padding: 2px;
-      border-radius: 9px;
-      align-self: flex-end;
-      position: relative;
-      overflow: hidden;
-
-      > label {
-        padding: 0 16px;
-        display: flex;
-        flex: 1;
-
-        > span {
-          z-index: 200;
-          font-size: 16px;
-          min-width: max-content;
-          display: inline-flex;
-          align-items: center;
-          height: 36px;
-          color: black;
-          text-wrap: nowrap;
-          transition: 0.1s ease-in color;
-
-          &:hover {
-            color: $activeElColor;
-          }
-        }
-
-        > input {
-          margin: 0;
-          appearance: none;
-          height: 10px;
-        }
-      }
-
-      > .selection {
-        background-color: $white;
-        border: 0.5px solid rgba(0, 0, 0, 0.04);
-        box-shadow:
-          0 3px 1px 0 rgba(0, 0, 0, 0.04),
-          0 3px 8px 0 rgba(0, 0, 0, 0.12);
-
-        height: 36px;
-        width: 135px;
-        border-radius: 7px;
-        margin: 2px 2px;
-        position: absolute;
-        pointer-events: none;
-        display: none;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        transition:
-          ease 0.2s transform,
-          width;
-      }
-
-      label:has(input[type="radio"]:checked) {
-        > span {
-          color: $activeElColor;
-        }
-
-        ~ .selection {
-          display: block;
-          animation: 0.2s ease fade-in;
-        }
-      }
-
-      label:nth-child(2):has(input[type="radio"]:checked) ~ .selection {
-        transform: translateX(134px);
-        width: 176px;
-      }
-    }
+@keyframes fade-in {
+  100% {
+    opacity: 100%;
+  }
+  50% {
+    opacity: 40%;
+  }
+  0% {
+    opacity: 100%;
   }
 }

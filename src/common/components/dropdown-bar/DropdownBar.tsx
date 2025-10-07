@@ -4,23 +4,24 @@ import { DropdownProps } from "@app/data/types";
 import { ChevronDownIcon } from "@app/common/icons/chevron-down";
 import "../../styles/common/DropdownBar.scss";
 
-interface DropdownPropsList {
+interface DropdownPropsList<T> {
   items: DropdownProps[];
   width?: number;
   title?: string;
-  onSelect: (text: string) => void;
+  onSelect: (text: T) => void;
   onSelectFunk?: () => void;
   selectedValue: string;
 }
 
-export const DropdownBar: React.FC<DropdownPropsList> = ({
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+export const DropdownBar: React.FC<DropdownPropsList<any>> = ({
   items,
   width,
   title,
   onSelect,
   selectedValue,
   onSelectFunk,
-}: DropdownPropsList) => {
+}) => {
   const color = useMemo(() => {
     return items.find((el) => el.text === selectedValue)?.color || "inherit";
   }, [items, selectedValue]);

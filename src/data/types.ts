@@ -75,8 +75,6 @@ export interface ManagerType {
 }
 
 export interface uiStateType {
-  currentClient: ClientType | null;
-  currentManager: ManagerType | null;
   isAdmin: boolean;
 }
 
@@ -156,3 +154,8 @@ export interface ChangeListItem {
   action: string;
   commentary: string;
 }
+
+export type ClientCardProps = Record<ClientsKeys, number>;
+export type IncomeCardProps = Record<IncomeKeys, number>;
+export type TrialCardProps = Record<TrialsKeys, number>;
+export type SubscribersCardProps = Record<SubscribersKeys, number>;
