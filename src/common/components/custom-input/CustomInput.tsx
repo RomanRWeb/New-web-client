@@ -62,9 +62,7 @@ const CustomInput: React.FC<InputProps> = ({
 
   return (
     <div className={"custom-input"}>
-      <span style={{ color: notDisabledTitle ? "#444444" : "inherit" }}>
-        {title}
-      </span>
+      <span style={{ color: notDisabledTitle ? "#444444" : "" }}>{title}</span>
       <span className={"input-wrapper"}>
         <input
           onChange={(e) => (onChange ? onChange(e.target.value) : null)}

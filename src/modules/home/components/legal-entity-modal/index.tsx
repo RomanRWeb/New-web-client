@@ -48,7 +48,13 @@ const LegalEntityModal = ({
   const [innNotFound, setInnNotFound] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!innError) {
+    if (innError) {
+      setOrganizationName("");
+      setKpp("");
+      setOgrn("");
+      setDocumentAddress("");
+      setGmName("");
+    } else {
       if (Number(inn[inn.length - 1]) % 2 !== 0) {
         setInnNotFound(true);
         setOrganizationName("");
@@ -64,12 +70,6 @@ const LegalEntityModal = ({
         setDocumentAddress("г. Москва,Бульвар победы 17");
         setGmName("Иванов Иван Иванович");
       }
-    } else {
-      setOrganizationName("");
-      setKpp("");
-      setOgrn("");
-      setDocumentAddress("");
-      setGmName("");
     }
   }, [inn, innError]);
 
@@ -362,25 +362,25 @@ const LegalEntityModal = ({
                   title={"Название организации"}
                   disabled={true}
                   value={organizationName}
-                  notDisabledTitle={true}
+                  notDisabledTitle={!innError && !innNotFound}
                 />
                 <CustomInput
                   title={"КПП"}
                   disabled={true}
                   value={kpp}
-                  notDisabledTitle={true}
+                  notDisabledTitle={!innError && !innNotFound}
                 />
                 <CustomInput
                   title={"ОГРН"}
                   disabled={true}
                   value={ogrn}
-                  notDisabledTitle={true}
+                  notDisabledTitle={!innError && !innNotFound}
                 />
                 <CustomInput
                   title={"Юридический адрес"}
                   disabled={true}
                   value={documentAddress}
-                  notDisabledTitle={true}
+                  notDisabledTitle={!innError && !innNotFound}
                 />
                 <CustomInput
                   title={"Фактический адрес"}
@@ -395,7 +395,7 @@ const LegalEntityModal = ({
                   title={"ФИО генерального директора"}
                   disabled={true}
                   value={gmName}
-                  notDisabledTitle={true}
+                  notDisabledTitle={!innError && !innNotFound}
                 />
               </section>
             </div>
