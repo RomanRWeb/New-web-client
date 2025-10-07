@@ -18,6 +18,7 @@ interface InputProps {
   dropdownOption?: DropdownProps[];
   dropdownWidth?: number;
   disabled?: boolean;
+  notDisabledTitle?: boolean;
   setError?: (value: boolean) => void;
   regex?: RegExp;
 }
@@ -43,6 +44,7 @@ const CustomInput: React.FC<InputProps> = ({
   disabled = false,
   regex,
   setError,
+  notDisabledTitle = false,
 }: InputProps) => {
   useEffect(() => {
     if (regex && setError) {
@@ -60,7 +62,9 @@ const CustomInput: React.FC<InputProps> = ({
 
   return (
     <div className={"custom-input"}>
-      <span>{title}</span>
+      <span style={{ color: notDisabledTitle ? "#444444" : "inherit" }}>
+        {title}
+      </span>
       <span className={"input-wrapper"}>
         <input
           onChange={(e) => (onChange ? onChange(e.target.value) : null)}
@@ -112,6 +116,12 @@ const CustomInputPhone: React.FC<InputProps> = ({
     }
   }, [onChange, setError, value]);
 
+  const finalStyle = useCallback(() => {
+    if (errState && !disabled) {
+      return errorStyle;
+    } else return { ...normalStyle, ...style };
+  }, [disabled, errState, style]);
+
   return (
     <div className={"custom-input"}>
       <span>{title}</span>
@@ -120,7 +130,7 @@ const CustomInputPhone: React.FC<InputProps> = ({
           onChange={(e) => (onChange ? onChange(e.target.value) : null)}
           placeholder={placeholder}
           value={value}
-          style={errState ? errorStyle : { ...normalStyle, ...style }}
+          style={finalStyle()}
           disabled={disabled}
         />
       </span>

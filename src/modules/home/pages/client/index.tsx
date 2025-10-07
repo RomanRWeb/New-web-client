@@ -299,6 +299,7 @@ const Client: React.FC<ClientProps> = ({ clientId }) => {
         actions={
           <CustomButton buttonName={"Сохранить"} onClick={handleSaveChanges} />
         }
+        reducedFooter={true}
       />
       <LegalEntityModal
         isVisible={showEntityModal}

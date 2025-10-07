@@ -51,10 +51,29 @@ const LegalEntityModal = ({
     if (!innError) {
       if (Number(inn[inn.length - 1]) % 2 !== 0) {
         setInnNotFound(true);
-      } else setInnNotFound(false);
+        setOrganizationName("");
+        setKpp("");
+        setOgrn("");
+        setDocumentAddress("");
+        setGmName("");
+      } else {
+        setInnNotFound(false);
+        setOrganizationName("ООО “Начинается”");
+        setKpp("123654789");
+        setOgrn("1236547896541");
+        setDocumentAddress("г. Москва,Бульвар победы 17");
+        setGmName("Иванов Иван Иванович");
+      }
+    } else {
+      setOrganizationName("");
+      setKpp("");
+      setOgrn("");
+      setDocumentAddress("");
+      setGmName("");
     }
-  }, [innError]);
+  }, [inn, innError]);
 
+  //left input column
   const [adminName, setAdminName] = useState<string>(client?.adminName || "");
   const [adminNameError, setAdminNameError] = useState<boolean>(false);
 
@@ -81,32 +100,23 @@ const LegalEntityModal = ({
   );
   const [ownerPhoneError, setOwnerPhoneError] = useState<boolean>(false);
 
+  // from INN
   const [organizationName, setOrganizationName] = useState<string>(
     client?.organizationName || "",
   );
-  const [organizationNameError, setOrganizationNameError] =
-    useState<boolean>(false);
-
   const [kpp, setKpp] = useState<string>(client?.kpp || "");
-  const [kppError, setKppError] = useState<boolean>(false);
-
   const [ogrn, setOgrn] = useState<string>(client?.ogrn || "");
-  const [ogrnError, setOgrnError] = useState<boolean>(false);
-
   const [documentAddress, setDocumentAddress] = useState<string>(
     client?.documentAddress || "",
   );
-  const [documentAddressError, setDocumentAddressError] =
-    useState<boolean>(false);
+  const [gmName, setGmName] = useState<string>(client?.gmName || "");
 
+  //addition parameters
   const [physicalAddress, setPhysicalAddress] = useState<string>(
     client?.physicalAddress || "",
   );
   const [physicalAddressError, setPhysicalAddressError] =
     useState<boolean>(false);
-
-  const [gmName, setGmName] = useState<string>(client?.gmName || "");
-  const [gmNameError, setGmNameError] = useState<boolean>(false);
 
   const [accountantName, setAccountantName] = useState<string>(
     client?.accountantName || "",
@@ -148,12 +158,7 @@ const LegalEntityModal = ({
       !ownerEmailError &&
       !innNotFound &&
       !innError &&
-      !organizationNameError &&
-      !kppError &&
-      !ogrnError &&
-      !documentAddressError &&
       !physicalAddressError &&
-      !gmNameError &&
       !accountantNameError &&
       !companyPhoneError &&
       !currentAccountError &&
@@ -173,13 +178,8 @@ const LegalEntityModal = ({
     companyPhoneError,
     correspondingAccountError,
     currentAccountError,
-    documentAddressError,
-    gmNameError,
     innNotFound,
     innError,
-    kppError,
-    ogrnError,
-    organizationNameError,
     ownerEmailError,
     ownerNameError,
     ownerPhoneError,
@@ -187,12 +187,7 @@ const LegalEntityModal = ({
   ]);
 
   const fillInnData = useCallback(() => {
-    setOrganizationName("ООО “Начинается”");
-    setKpp("123654789");
-    setOgrn("1236547896541");
-    setDocumentAddress("г. Москва,Бульвар победы 17");
     setPhysicalAddress("г. Москва,Бульвар победы 17");
-    setGmName("Иванов Иван Иванович");
     setAccountantName("Петрова Зинаида Агафьевна");
     setCompanyPhone("+7 845 999 99 99");
     setCurrentAccount("12365478965412345678");
@@ -365,39 +360,27 @@ const LegalEntityModal = ({
               <section>
                 <CustomInput
                   title={"Название организации"}
-                  disabled={innError || innNotFound}
+                  disabled={true}
                   value={organizationName}
-                  onChange={setOrganizationName}
-                  errState={organizationNameError}
-                  regex={anythingRegex}
-                  setError={setOrganizationNameError}
+                  notDisabledTitle={true}
                 />
                 <CustomInput
                   title={"КПП"}
-                  disabled={innError || innNotFound}
+                  disabled={true}
                   value={kpp}
-                  onChange={setKpp}
-                  errState={kppError}
-                  regex={kppRegex}
-                  setError={setKppError}
+                  notDisabledTitle={true}
                 />
                 <CustomInput
                   title={"ОГРН"}
-                  disabled={innError || innNotFound}
+                  disabled={true}
                   value={ogrn}
-                  onChange={setOgrn}
-                  errState={ogrnError}
-                  regex={ogrnRegex}
-                  setError={setOgrnError}
+                  notDisabledTitle={true}
                 />
                 <CustomInput
                   title={"Юридический адрес"}
-                  disabled={innError || innNotFound}
+                  disabled={true}
                   value={documentAddress}
-                  onChange={setDocumentAddress}
-                  errState={documentAddressError}
-                  regex={anythingRegex}
-                  setError={setDocumentAddressError}
+                  notDisabledTitle={true}
                 />
                 <CustomInput
                   title={"Фактический адрес"}
@@ -410,12 +393,9 @@ const LegalEntityModal = ({
                 />
                 <CustomInput
                   title={"ФИО генерального директора"}
-                  disabled={innError || innNotFound}
+                  disabled={true}
                   value={gmName}
-                  onChange={setGmName}
-                  errState={gmNameError}
-                  regex={anythingRegex}
-                  setError={setGmNameError}
+                  notDisabledTitle={true}
                 />
               </section>
             </div>

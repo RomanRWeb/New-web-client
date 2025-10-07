@@ -306,19 +306,19 @@ const Analytics: React.FC = () => {
     setTimeout(() => {
       setClientLoading(false);
       seClientData(clientDataPlaceholder);
-    }, 1000);
+    }, 800);
     setTimeout(() => {
       setIncomeLoading(false);
       setIncomeData(incomeDataPlaceholder);
-    }, 2000);
+    }, 1600);
     setTimeout(() => {
       setTrialLoading(false);
       setTrialData(trialDataPlaceholder);
-    }, 3000);
+    }, 2400);
     setTimeout(() => {
       setSubscribeLoading(false);
       setSubscribeData(subscribeDataPlaceholder);
-    }, 4000);
+    }, 3200);
   }, []);
 
   return (

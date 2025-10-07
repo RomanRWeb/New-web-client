@@ -50,6 +50,10 @@
       height: 40px;
       width: 100%;
       padding-left: 16px;
+
+      &:disabled {
+        color: $textSecondaryColor;
+      }
     }
   }
 

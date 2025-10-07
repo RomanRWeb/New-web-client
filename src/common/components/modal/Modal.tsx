@@ -11,6 +11,7 @@ interface ModalProps {
   onCloseFunk?: () => void;
   children?: React.ReactNode;
   className?: string;
+  reducedFooter?: boolean;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -21,6 +22,7 @@ const Modal: React.FC<ModalProps> = ({
   onCloseFunk,
   children,
   className = "modal",
+  reducedFooter,
 }: ModalProps) => {
   return (
     <div
@@ -40,7 +42,10 @@ const Modal: React.FC<ModalProps> = ({
         {content ? <div className={"modal-body"}>{content}</div> : null}
         {children}
         {actions ? (
-          <footer className={"action-wrapper"}>
+          <footer
+            className={"action-wrapper"}
+            style={{ padding: reducedFooter ? "4px 24px 24px 24px" : "24px" }}
+          >
             {actions}
             {actions && onCloseFunk ? (
               <CustomButton
