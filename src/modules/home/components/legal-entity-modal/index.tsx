@@ -48,16 +48,7 @@ const LegalEntityModal = ({
   const [innNotFound, setInnNotFound] = useState<boolean>(false);
 
   useEffect(() => {
-    if (!innError) {
-      if (Number(inn[inn.length - 1]) % 2 !== 0) {
-        setInnNotFound(true);
-      } else {
-        setInnNotFound(false);
-      }
-    }
-  }, [inn, innError]);
-
-  useEffect(() => {
+    setInnNotFound(false);
     setOrganizationName("");
     setKpp("");
     setOgrn("");
@@ -186,19 +177,26 @@ const LegalEntityModal = ({
   ]);
 
   const fillInnData = useCallback(() => {
-    setOrganizationName("ООО “Начинается”");
-    setKpp("123654789");
-    setOgrn("1236547896541");
-    setDocumentAddress("г. Москва,Бульвар победы 17");
-    setGmName("Иванов Иван Иванович");
-    setPhysicalAddress("г. Москва,Бульвар победы 17");
-    setAccountantName("Петрова Зинаида Агафьевна");
-    setCompanyPhone("+7 845 999 99 99");
-    setCurrentAccount("12365478965412345678");
-    setBik("");
-    setBankName("");
-    setCorrespondingAccount("12365478965412345678");
-  }, []);
+    if (!innError) {
+      if (Number(inn[inn.length - 1]) % 2 !== 0) {
+        setInnNotFound(true);
+      } else {
+        setInnNotFound(false);
+        setOrganizationName("ООО “Начинается”");
+        setKpp("123654789");
+        setOgrn("1236547896541");
+        setDocumentAddress("г. Москва,Бульвар победы 17");
+        setGmName("Иванов Иван Иванович");
+        setPhysicalAddress("г. Москва,Бульвар победы 17");
+        setAccountantName("Петрова Зинаида Агафьевна");
+        setCompanyPhone("+7 845 999 99 99");
+        setCurrentAccount("12365478965412345678");
+        setBik("");
+        setBankName("");
+        setCorrespondingAccount("12365478965412345678");
+      }
+    }
+  }, [inn, innError]);
 
   const loadContract = useCallback(() => {}, []);
 
