@@ -48,30 +48,29 @@ const LegalEntityModal = ({
   const [innNotFound, setInnNotFound] = useState<boolean>(false);
 
   useEffect(() => {
-    if (innError) {
-      setOrganizationName("");
-      setKpp("");
-      setOgrn("");
-      setDocumentAddress("");
-      setGmName("");
-    } else {
+    if (!innError) {
       if (Number(inn[inn.length - 1]) % 2 !== 0) {
         setInnNotFound(true);
-        setOrganizationName("");
-        setKpp("");
-        setOgrn("");
-        setDocumentAddress("");
-        setGmName("");
       } else {
         setInnNotFound(false);
-        setOrganizationName("ООО “Начинается”");
-        setKpp("123654789");
-        setOgrn("1236547896541");
-        setDocumentAddress("г. Москва,Бульвар победы 17");
-        setGmName("Иванов Иван Иванович");
       }
     }
   }, [inn, innError]);
+
+  useEffect(() => {
+    setOrganizationName("");
+    setKpp("");
+    setOgrn("");
+    setDocumentAddress("");
+    setGmName("");
+    setPhysicalAddress("");
+    setAccountantName("");
+    setCompanyPhone("");
+    setCurrentAccount("");
+    setBik("");
+    setBankName("");
+    setCorrespondingAccount("");
+  }, [inn]);
 
   //left input column
   const [adminName, setAdminName] = useState<string>(client?.adminName || "");
@@ -187,6 +186,11 @@ const LegalEntityModal = ({
   ]);
 
   const fillInnData = useCallback(() => {
+    setOrganizationName("ООО “Начинается”");
+    setKpp("123654789");
+    setOgrn("1236547896541");
+    setDocumentAddress("г. Москва,Бульвар победы 17");
+    setGmName("Иванов Иван Иванович");
     setPhysicalAddress("г. Москва,Бульвар победы 17");
     setAccountantName("Петрова Зинаида Агафьевна");
     setCompanyPhone("+7 845 999 99 99");
